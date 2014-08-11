@@ -42,7 +42,6 @@ typedef struct drcs_conversion_s {
 typedef struct arib_parser_t
 {
     void             *p_opaque; /* user defined callback object */
-    bs_t              bs;
 
     /* Decoder internal data */
 #if 0
@@ -73,7 +72,7 @@ typedef struct arib_parser_t
 arib_parser_t * arib_parser_new( void *p_opaque );
 void arib_parser_free( arib_parser_t * );
 
-void parse_arib_pes( arib_parser_t * );
+void arib_parse_pes( arib_parser_t *, const void *p_data, size_t i_data );
 void load_drcs_conversion_table( arib_parser_t *p_parser );
 
 
