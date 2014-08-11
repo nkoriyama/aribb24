@@ -55,7 +55,7 @@
 
 char* get_arib_data_dir( arib_parser_t *p_parser )
 {
-    char *psz_arib_base_dir = p_parser->p_arib_base_dir;
+    const char *psz_arib_base_dir = p_parser->psz_arib_base_dir;
     if( psz_arib_base_dir == NULL )
     {
         return NULL;
@@ -72,7 +72,7 @@ char* get_arib_data_dir( arib_parser_t *p_parser )
 
 void create_arib_basedir( arib_parser_t *p_parser )
 {
-    char *psz_arib_base_dir = p_parser->p_arib_base_dir;
+    const char *psz_arib_base_dir = p_parser->psz_arib_base_dir;
     if( psz_arib_base_dir == NULL )
     {
         return;
@@ -112,7 +112,7 @@ void create_arib_datadir( arib_parser_t *p_parser )
 void load_drcs_conversion_table( arib_parser_t *p_parser )
 {
     create_arib_basedir( p_parser );
-    char *psz_arib_base_dir = p_parser->p_arib_base_dir;
+    const char *psz_arib_base_dir = p_parser->psz_arib_base_dir;
     if( psz_arib_base_dir == NULL )
     {
         return;
@@ -746,17 +746,18 @@ void arib_parse_pes( arib_parser_t *p_parser, const void *p_data, size_t i_data 
     parse_data_group( p_parser, &bs );
 }
 
-arib_parser_t * arib_parser_new( void *p_opaque )
+arib_parser_t * arib_parser_new( void *p_opaque, const char *psz_arib_basedir )
 {
     arib_parser_t *p_parser = calloc( 1, sizeof(*p_parser) );
-    if (!p_parser)
+    if ( !p_parser )
        return NULL;
     p_parser->p_opaque = p_opaque;
+    p_parser->psz_arib_base_dir = psz_arib_basedir ? strdup( psz_arib_basedir ) : NULL;
     return p_parser;
 }
 
 void arib_parser_free( arib_parser_t *p_parser )
 {
-
+    free( p_parser->psz_arib_base_dir );
     free( p_parser );
 }

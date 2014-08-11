@@ -64,12 +64,12 @@ typedef struct arib_parser_t
     int               i_drcs_num;
     char              drcs_hash_table[188][32 + 1];
 
-    char              *p_arib_base_dir;
+    char              *psz_arib_base_dir;
 
     drcs_conversion_t *p_drcs_conv;
 } arib_parser_t;
 
-arib_parser_t * arib_parser_new( void *p_opaque );
+arib_parser_t * arib_parser_new( void *p_opaque, const char *psz_drcs_basedir );
 void arib_parser_free( arib_parser_t * );
 
 void arib_parse_pes( arib_parser_t *, const void *p_data, size_t i_data );
