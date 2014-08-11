@@ -23,6 +23,7 @@
 #ifndef ARIBB24_PARSER_H
 #define ARIBB24_PARSER_H 1
 
+#include "aribb24/aribb24.h"
 #include "aribb24/decoder.h"
 #include "aribb24/bits.h"
 
@@ -39,9 +40,9 @@ typedef struct drcs_conversion_s {
     struct drcs_conversion_s *p_next;
 } drcs_conversion_t ;
 
-typedef struct arib_parser_t
+struct arib_parser_t
 {
-    void             *p_opaque; /* user defined callback object */
+    arib_instance_t  *p_instance;
 
     /* Decoder internal data */
 #if 0
@@ -64,13 +65,8 @@ typedef struct arib_parser_t
     int               i_drcs_num;
     char              drcs_hash_table[188][32 + 1];
 
-    char              *psz_arib_base_dir;
-
     drcs_conversion_t *p_drcs_conv;
-} arib_parser_t;
-
-arib_parser_t * arib_parser_new( void *p_opaque, const char *psz_drcs_basedir );
-void arib_parser_free( arib_parser_t * );
+};
 
 void arib_parse_pes( arib_parser_t *, const void *p_data, size_t i_data );
 

@@ -36,6 +36,8 @@
 #include "png.h"
 #include "md5.h"
 #include "aribb24/parser.h"
+#include "aribb24_private.h"
+#include "parser_private.h"
 
 #if defined( _WIN32 ) || defined( __SYMBIAN32__ ) || defined( __OS2__ )
 #   define mkdir(a,b) mkdir(a)
@@ -55,14 +57,14 @@
 
 char* get_arib_data_dir( arib_parser_t *p_parser )
 {
-    const char *psz_arib_base_dir = p_parser->psz_arib_base_dir;
-    if( psz_arib_base_dir == NULL )
+    const char *psz_arib_base_path = p_parser->p_instance->p->psz_base_path;
+    if( psz_arib_base_path == NULL )
     {
         return NULL;
     }
 
     char *psz_arib_data_dir;
-    if( asprintf( &psz_arib_data_dir, "%s"DIR_SEP"data", psz_arib_base_dir ) < 0 )
+    if( asprintf( &psz_arib_data_dir, "%s"DIR_SEP"data", psz_arib_base_path ) < 0 )
     {
         psz_arib_data_dir = NULL;
     }
@@ -72,16 +74,16 @@ char* get_arib_data_dir( arib_parser_t *p_parser )
 
 void create_arib_basedir( arib_parser_t *p_parser )
 {
-    const char *psz_arib_base_dir = p_parser->psz_arib_base_dir;
-    if( psz_arib_base_dir == NULL )
+    const char *psz_arib_base_path = p_parser->p_instance->p->psz_base_path;
+    if( psz_arib_base_path == NULL )
     {
         return;
     }
 
     struct stat st;
-    if( stat( psz_arib_base_dir, &st ) )
+    if( stat( psz_arib_base_path, &st ) )
     {
-        if( mkdir( psz_arib_base_dir, 0777) != 0 )
+        if( mkdir( psz_arib_base_path, 0777) != 0 )
         {
             // ERROR
         }
@@ -112,14 +114,14 @@ void create_arib_datadir( arib_parser_t *p_parser )
 static void load_drcs_conversion_table( arib_parser_t *p_parser )
 {
     create_arib_basedir( p_parser );
-    const char *psz_arib_base_dir = p_parser->psz_arib_base_dir;
-    if( psz_arib_base_dir == NULL )
+    const char *psz_arib_base_path = p_parser->p_instance->p->psz_base_path;
+    if( psz_arib_base_path == NULL )
     {
         return;
     }
 
     char* psz_conv_file;
-    if( asprintf( &psz_conv_file, "%s"DIR_SEP"drcs_conv.ini", psz_arib_base_dir ) < 0 )
+    if( asprintf( &psz_conv_file, "%s"DIR_SEP"drcs_conv.ini", psz_arib_base_path ) < 0 )
     {
         psz_conv_file = NULL;
     }
@@ -747,20 +749,18 @@ void arib_parse_pes( arib_parser_t *p_parser, const void *p_data, size_t i_data 
     parse_data_group( p_parser, &bs );
 }
 
-arib_parser_t * arib_parser_new( void *p_opaque, const char *psz_arib_basedir )
+arib_parser_t * arib_parser_new( arib_instance_t *p_instance )
 {
     arib_parser_t *p_parser = calloc( 1, sizeof(*p_parser) );
     if ( !p_parser )
        return NULL;
-    p_parser->p_opaque = p_opaque;
-    p_parser->psz_arib_base_dir = psz_arib_basedir ? strdup( psz_arib_basedir ) : NULL;
-    if ( p_parser->psz_arib_base_dir )
+    p_parser->p_instance = p_instance;
+    if ( p_instance->p->psz_base_path )
         load_drcs_conversion_table( p_parser );
     return p_parser;
 }
 
 void arib_parser_free( arib_parser_t *p_parser )
 {
-    free( p_parser->psz_arib_base_dir );
     free( p_parser );
 }

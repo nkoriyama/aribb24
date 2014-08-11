@@ -30,6 +30,7 @@
 #include <stdint.h>
 
 #include "aribb24/decoder.h"
+#include "decoder_private.h"
 #include "aribb24/convtable.h"
 #include "aribb24/decoder_macro.h"
 
@@ -1437,12 +1438,12 @@ int arib_decode_buffer( arib_decoder_t* decoder,
     return ucount - decoder->ucount;
 }
 
-arib_decoder_t * arib_decoder_new( void *p_opaque )
+arib_decoder_t * arib_decoder_new( arib_instance_t *p_instance )
 {
     arib_decoder_t *p_decoder = calloc( 1, sizeof( *p_decoder ) );
     if ( !p_decoder )
         return NULL;
-    p_decoder->p_opaque = p_opaque;
+    p_decoder->p_instance = p_instance;
     return p_decoder;
 }
 

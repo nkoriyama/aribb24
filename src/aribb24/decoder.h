@@ -23,6 +23,8 @@
 #ifndef ARIBB24_DECODER_H
 #define ARIBB24_DECODER_H 1
 
+#include "aribb24.h"
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -139,20 +141,20 @@ typedef struct arib_buf_region_s
 /*****************************************************************************
  * ARIB STD-B24 JIS 8bit character code decoder
  *****************************************************************************/
-typedef struct arib_decoder_s
+struct arib_decoder_t
 {
-    void *p_opaque;
+    arib_instance_t *p_instance;
     const unsigned char *buf;
     size_t count;
     char *ubuf;
     size_t ucount;
-    int (**handle_gl)(struct arib_decoder_s *, int);
-    int (**handle_gl_single)(struct arib_decoder_s *, int);
-    int (**handle_gr)(struct arib_decoder_s *, int);
-    int (*handle_g0)(struct arib_decoder_s *, int);
-    int (*handle_g1)(struct arib_decoder_s *, int);
-    int (*handle_g2)(struct arib_decoder_s *, int);
-    int (*handle_g3)(struct arib_decoder_s *, int);
+    int (**handle_gl)(arib_decoder_t *, int);
+    int (**handle_gl_single)(arib_decoder_t *, int);
+    int (**handle_gr)(arib_decoder_t *, int);
+    int (*handle_g0)(arib_decoder_t *, int);
+    int (*handle_g1)(arib_decoder_t *, int);
+    int (*handle_g2)(arib_decoder_t *, int);
+    int (*handle_g3)(arib_decoder_t *, int);
     int kanji_ku;
 
     int i_control_time;
@@ -200,11 +202,7 @@ typedef struct arib_decoder_s
 
     arib_buf_region_t *p_region;
     bool b_need_next_region;
-} arib_decoder_t;
-
-arib_decoder_t * arib_decoder_new( void *p_opaque );
-
-void arib_decoder_free( arib_decoder_t *p_decoder );
+};
 
 void arib_initialize_decoder( arib_decoder_t* decoder );
 

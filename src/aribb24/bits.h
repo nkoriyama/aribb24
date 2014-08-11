@@ -24,6 +24,7 @@
 #ifndef VLC_BITS_H
 #define VLC_BITS_H 1
 
+#include <unistd.h>
 /**
  * \file
  * This file defines functions, structures for handling streams of bits in vlc
