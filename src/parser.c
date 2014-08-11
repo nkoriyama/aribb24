@@ -743,3 +743,18 @@ void parse_arib_pes( arib_parser_t *p_parser )
 
     parse_data_group( p_parser );
 }
+
+arib_parser_t * arib_parser_new( void *p_opaque )
+{
+    arib_parser_t *p_parser = calloc( 1, sizeof(*p_parser) );
+    if (!p_parser)
+       return NULL;
+    p_parser->p_opaque = p_opaque;
+    return p_parser;
+}
+
+void arib_parser_free( arib_parser_t *p_parser )
+{
+
+    free( p_parser );
+}
