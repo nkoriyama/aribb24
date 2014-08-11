@@ -141,6 +141,7 @@ typedef struct arib_buf_region_s
  *****************************************************************************/
 typedef struct arib_decoder_s
 {
+    void *p_opaque;
     const unsigned char *buf;
     size_t count;
     char *ubuf;
@@ -200,6 +201,10 @@ typedef struct arib_decoder_s
     arib_buf_region_t *p_region;
     bool b_need_next_region;
 } arib_decoder_t;
+
+arib_decoder_t * arib_decoder_new( void *p_opaque );
+
+void arib_decoder_free( arib_decoder_t *p_decoder );
 
 void arib_initialize_decoder( arib_decoder_t* decoder );
 

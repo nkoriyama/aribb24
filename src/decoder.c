@@ -1436,3 +1436,17 @@ int arib_decode_buffer( arib_decoder_t* decoder,
     }
     return ucount - decoder->ucount;
 }
+
+arib_decoder_t * arib_decoder_new( void *p_opaque )
+{
+    arib_decoder_t *p_decoder = calloc( 1, sizeof( *p_decoder ) );
+    if ( !p_decoder )
+        return NULL;
+    p_decoder->p_opaque = p_opaque;
+    return p_decoder;
+}
+
+void arib_decoder_free( arib_decoder_t *p_decoder )
+{
+    free( p_decoder );
+}
