@@ -73,7 +73,6 @@ arib_parser_t * arib_parser_new( void *p_opaque, const char *psz_drcs_basedir );
 void arib_parser_free( arib_parser_t * );
 
 void arib_parse_pes( arib_parser_t *, const void *p_data, size_t i_data );
-void load_drcs_conversion_table( arib_parser_t *p_parser );
 
 
 #endif
