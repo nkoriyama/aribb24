@@ -40,5 +40,5 @@ AC_TYPE_UINT8_T
 AC_CHECK_FUNCS([memset mkdir sqrt strchr strdup strstr strtoul])
 
 AC_CONFIG_FILES([Makefile
-                 src/Makefile])
+                 src/Makefile src/aribb24.pc])
 AC_OUTPUT
