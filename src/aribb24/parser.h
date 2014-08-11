@@ -48,7 +48,6 @@ typedef struct arib_parser_t
 #if 0
     arib_data_group_t data_group;
 #endif
-    bool              b_a_profile;
     uint32_t          i_data_unit_size;
     int               i_subtitle_data_size;
     unsigned char     *psz_subtitle_data;
@@ -59,7 +58,6 @@ typedef struct arib_parser_t
     bool              b_ignore_position_adjustment;
     bool              b_replace_ellipsis;
 
-    arib_decoder_t    arib_decoder;
 #ifdef ARIBSUB_GEN_DRCS_DATA
     drcs_data_t       *p_drcs_data;
 #endif //ARIBSUB_GEN_DRCS_DATA
