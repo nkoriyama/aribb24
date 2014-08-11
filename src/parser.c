@@ -53,7 +53,7 @@
 #   define PATH_SEP ":"
 #endif
 
-char* get_arib_data_dir( struct arib_parser_t *p_parser )
+char* get_arib_data_dir( arib_parser_t *p_parser )
 {
     char *psz_arib_base_dir = p_parser->p_arib_base_dir;
     if( psz_arib_base_dir == NULL )
@@ -70,7 +70,7 @@ char* get_arib_data_dir( struct arib_parser_t *p_parser )
     return psz_arib_data_dir;
 }
 
-void create_arib_basedir( struct arib_parser_t *p_parser )
+void create_arib_basedir( arib_parser_t *p_parser )
 {
     char *psz_arib_base_dir = p_parser->p_arib_base_dir;
     if( psz_arib_base_dir == NULL )
@@ -88,7 +88,7 @@ void create_arib_basedir( struct arib_parser_t *p_parser )
     }
 }
 
-void create_arib_datadir( struct arib_parser_t *p_parser )
+void create_arib_datadir( arib_parser_t *p_parser )
 {
     create_arib_basedir( p_parser );
     char *psz_arib_data_dir = get_arib_data_dir( p_parser );
@@ -109,7 +109,7 @@ void create_arib_datadir( struct arib_parser_t *p_parser )
     free( psz_arib_data_dir );
 }
 
-void load_drcs_conversion_table( struct arib_parser_t *p_parser )
+void load_drcs_conversion_table( arib_parser_t *p_parser )
 {
     create_arib_basedir( p_parser );
     char *psz_arib_base_dir = p_parser->p_arib_base_dir;
@@ -194,7 +194,7 @@ void load_drcs_conversion_table( struct arib_parser_t *p_parser )
     fclose( fp );
 }
 
-FILE* open_image_file( struct arib_parser_t* p_parser, const char *psz_hash )
+FILE* open_image_file( arib_parser_t* p_parser, const char *psz_hash )
 {
     FILE* fp = NULL;
     create_arib_datadir( p_parser );
@@ -231,7 +231,7 @@ FILE* open_image_file( struct arib_parser_t* p_parser, const char *psz_hash )
 }
 
 char* get_drcs_pattern_data_hash(
-        struct arib_parser_t *p_parser,
+        arib_parser_t *p_parser,
         int i_width, int i_height,
         int i_depth, const int8_t* p_patternData )
 {
@@ -244,7 +244,7 @@ char* get_drcs_pattern_data_hash(
 }
 
 void save_drcs_pattern_data_image(
-        struct arib_parser_t *p_parser,
+        arib_parser_t *p_parser,
         const char* psz_hash,
         int i_width, int i_height,
         int i_depth, const int8_t* p_patternData )
@@ -345,7 +345,7 @@ png_create_write_struct_failed:
 }
 
 void save_drcs_pattern(
-        struct arib_parser_t *p_parser,
+        arib_parser_t *p_parser,
         int i_width, int i_height,
         int i_depth, const int8_t* p_patternData )
 {
@@ -363,7 +363,7 @@ void save_drcs_pattern(
     free( psz_hash );
 }
 
-void parse_data_unit_statement_body( struct arib_parser_t *p_parser,
+void parse_data_unit_statement_body( arib_parser_t *p_parser,
                                            uint8_t i_data_unit_parameter,
                                            uint32_t i_data_unit_size )
 {
@@ -387,7 +387,7 @@ void parse_data_unit_statement_body( struct arib_parser_t *p_parser,
     free( p_data_unit_data_byte );
 }
 
-void parse_data_unit_DRCS( struct arib_parser_t *p_parser,
+void parse_data_unit_DRCS( arib_parser_t *p_parser,
                                   uint8_t i_data_unit_parameter,
                                   uint32_t i_data_unit_size )
 {
@@ -569,7 +569,7 @@ void parse_data_unit_DRCS( struct arib_parser_t *p_parser,
     }
 }
 
-void parse_data_unit_others( struct arib_parser_t *p_parser,
+void parse_data_unit_others( arib_parser_t *p_parser,
                                     uint8_t i_data_unit_parameter,
                                     uint32_t i_data_unit_size )
 {
@@ -585,7 +585,7 @@ void parse_data_unit_others( struct arib_parser_t *p_parser,
  *****************************************************************************
  * ARIB STD-B24 VOLUME 1 Part 3 Chapter 9.4 Structure of data unit
  *****************************************************************************/
-void parse_data_unit( struct arib_parser_t *p_parser )
+void parse_data_unit( arib_parser_t *p_parser )
 {
     uint8_t i_unit_separator = bs_read( &p_parser->bs, 8 );
     p_parser->i_data_unit_size += 1;
@@ -623,7 +623,7 @@ void parse_data_unit( struct arib_parser_t *p_parser )
  *****************************************************************************
  * ARIB STD-B24 VOLUME 1 Part 3 Chapter 9.3.1 Caption management data
  *****************************************************************************/
-void parse_caption_management_data( struct arib_parser_t *p_parser )
+void parse_caption_management_data( arib_parser_t *p_parser )
 {
     uint8_t i_TMD = bs_read( &p_parser->bs, 2 );
     bs_skip( &p_parser->bs, 6 ); /* Reserved */
@@ -670,7 +670,7 @@ void parse_caption_management_data( struct arib_parser_t *p_parser )
  *****************************************************************************
  * ARIB STD-B24 VOLUME 1 Part 3 Chapter 9.3.2 Caption statement data
  *****************************************************************************/
-void parse_caption_statement_data( struct arib_parser_t *p_parser )
+void parse_caption_statement_data( arib_parser_t *p_parser )
 {
     uint8_t i_TMD = bs_read( &p_parser->bs, 2 );
     bs_skip( &p_parser->bs, 6 ); /* Reserved */
@@ -700,7 +700,7 @@ void parse_caption_statement_data( struct arib_parser_t *p_parser )
  *****************************************************************************
  * ARIB STD-B24 VOLUME 1 Part 3 Chapter 9.2 Structure of data group
  *****************************************************************************/
-void parse_data_group( struct arib_parser_t *p_parser )
+void parse_data_group( arib_parser_t *p_parser )
 {
     uint8_t i_data_group_id = bs_read( &p_parser->bs, 6 );
     uint8_t i_data_group_version = bs_read( &p_parser->bs, 2 );
@@ -723,7 +723,7 @@ void parse_data_group( struct arib_parser_t *p_parser )
  *****************************************************************************
  * ARIB STD-B24 VOLUME3 Chapter 5 Independent PES transmission protocol
  *****************************************************************************/
-void parse_arib_pes( struct arib_parser_t *p_parser )
+void parse_arib_pes( arib_parser_t *p_parser )
 {
     uint8_t i_data_group_id = bs_read( &p_parser->bs, 8 );
     if( i_data_group_id != 0x80 && i_data_group_id != 0x81 )

@@ -39,7 +39,7 @@ typedef struct drcs_conversion_s {
     struct drcs_conversion_s *p_next;
 } drcs_conversion_t ;
 
-struct arib_parser_t
+typedef struct arib_parser_t
 {
     bs_t              bs;
 
@@ -69,10 +69,10 @@ struct arib_parser_t
     char              *p_arib_base_dir;
 
     drcs_conversion_t *p_drcs_conv;
-};
+} arib_parser_t;
 
-void parse_arib_pes( struct arib_parser_t * );
-void load_drcs_conversion_table( struct arib_parser_t *p_parser );
+void parse_arib_pes( arib_parser_t * );
+void load_drcs_conversion_table( arib_parser_t *p_parser );
 
 
 #endif
