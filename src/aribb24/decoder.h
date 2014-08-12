@@ -212,8 +212,8 @@ void arib_initialize_decoder_c_profile( arib_decoder_t* decoder );
 
 void arib_finalize_decoder( arib_decoder_t* decoder );
 
-int arib_decode_buffer( arib_decoder_t* decoder,
-                         const unsigned char *buf, size_t count,
-                         char *ubuf, int ucount );
+size_t arib_decode_buffer( arib_decoder_t* decoder,
+                           const unsigned char *buf, size_t count,
+                           char *ubuf, size_t ucount );
 
 #endif

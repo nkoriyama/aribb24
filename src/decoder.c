@@ -1422,9 +1422,9 @@ void arib_finalize_decoder( arib_decoder_t* decoder )
     }
 }
 
-int arib_decode_buffer( arib_decoder_t* decoder,
-                         const unsigned char *buf, size_t count,
-                         char *ubuf, int ucount )
+size_t arib_decode_buffer( arib_decoder_t* decoder,
+                           const unsigned char *buf, size_t count,
+                           char *ubuf, size_t ucount )
 {
     decoder->buf = buf;
     decoder->count = count;
@@ -1435,7 +1435,7 @@ int arib_decode_buffer( arib_decoder_t* decoder,
     {
         dump( buf, decoder->buf );
     }
-    int i_size = ucount - decoder->ucount;
+    size_t i_size = ucount - decoder->ucount;
     if ( ucount )
         ubuf[ i_size ] = 0;
     return i_size;
