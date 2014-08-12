@@ -73,4 +73,6 @@ size_t arib_decode_buffer( arib_decoder_t* decoder,
 
 time_t arib_decoder_get_time( arib_decoder_t *decoder );
 
+const arib_buf_region_t * arib_decoder_get_regions( arib_decoder_t * ); 
+
 #endif

@@ -1591,3 +1591,8 @@ time_t arib_decoder_get_time( arib_decoder_t *p_decoder )
 {
     return (time_t) p_decoder->i_control_time * 1000000 / 10;
 }
+
+const arib_buf_region_t * arib_decoder_get_regions( arib_decoder_t *p_decoder )
+{
+    return p_decoder->p_region;
+}
