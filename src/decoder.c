@@ -34,7 +34,147 @@
 #include "aribb24/convtable.h"
 #include "aribb24/decoder_macro.h"
 
-#define DEBUG_ARIBB24DEC 1
+#if 0
+/*****************************************************************************
+ * ARIB STD-B24 VOLUME 1 Part 3 Chapter 9.3.1 Caption management data
+ *****************************************************************************/
+typedef struct
+{
+} arib_caption_management_data_t;
+
+/*****************************************************************************
+ * ARIB STD-B24 VOLUME 1 Part 3 Chapter 9.3.2 Caption statement data
+ *****************************************************************************/
+typedef struct
+{
+} arib_caption_statement_data_t;
+
+/*****************************************************************************
+ * ARIB STD-B24 VOLUME 1 Part 3 Chapter 9.2 Structure of data group
+ *****************************************************************************/
+typedef struct
+{
+    uint8_t  i_data_group_id;
+    uint8_t  i_data_group_version;
+    uint8_t  i_data_group_link_number;
+    uint8_t  i_last_data_group_link_number;
+    uint16_t i_data_group_size;
+
+    arib_caption_management_data_t *caption_management_data;
+    arib_caption_statement_data_t *caption_statement_data;
+} arib_data_group_t;
+
+#endif
+
+//#define ARIBSUB_GEN_DRCS_DATA
+#ifdef ARIBSUB_GEN_DRCS_DATA
+typedef struct drcs_geometric_data_s
+{
+    int8_t      i_regionX;
+    int8_t      i_regionY;
+    int16_t     i_geometricData_length;
+
+    int8_t      *p_geometricData;
+} drcs_geometric_data_t;
+
+typedef struct drcs_pattern_data_s
+{
+    int8_t      i_depth;
+    int8_t      i_width;
+    int8_t      i_height;
+
+    int8_t      *p_patternData;
+} drcs_pattern_data_t;
+
+typedef struct  drcs_font_data_s
+{
+    int8_t                i_fontId;
+    int8_t                i_mode;
+
+    drcs_pattern_data_t   *p_drcs_pattern_data;
+    drcs_geometric_data_t *p_drcs_geometric_data;
+} drcs_font_data_t;
+
+typedef struct drc_code_s
+{
+    int16_t            i_CharacterCode;
+    int8_t             i_NumberOfFont;
+    drcs_font_data_t   *p_drcs_font_data;
+} drcs_code_t;
+
+typedef struct drcs_data_s
+{
+    int8_t      i_NumberOfCode;
+
+    drcs_code_t *p_drcs_code;
+} drcs_data_t;
+#endif //ARIBSUB_GEN_DRCS_DATA
+
+/*****************************************************************************
+ * ARIB STD-B24 JIS 8bit character code decoder
+ *****************************************************************************/
+struct arib_decoder_t
+{
+    arib_instance_t *p_instance;
+    const unsigned char *buf;
+    size_t count;
+    char *ubuf;
+    size_t ucount;
+    int (**handle_gl)(arib_decoder_t *, int);
+    int (**handle_gl_single)(arib_decoder_t *, int);
+    int (**handle_gr)(arib_decoder_t *, int);
+    int (*handle_g0)(arib_decoder_t *, int);
+    int (*handle_g1)(arib_decoder_t *, int);
+    int (*handle_g2)(arib_decoder_t *, int);
+    int (*handle_g3)(arib_decoder_t *, int);
+    int kanji_ku;
+
+    int i_control_time;
+
+    int i_color_map;
+    int i_foreground_color;
+    int i_foreground_color_prev;
+    int i_background_color;
+    int i_foreground_alpha;
+    int i_background_alpha;
+
+    int i_planewidth;
+    int i_planeheight;
+
+    int i_width;
+    int i_height;
+    int i_left;
+    int i_top;
+
+    int i_fontwidth;
+    int i_fontwidth_cur;
+    int i_fontheight;
+    int i_fontheight_cur;
+
+    int i_horint;
+    int i_horint_cur;
+    int i_verint;
+    int i_verint_cur;
+
+    int i_charwidth;
+    int i_charheight;
+
+    int i_right;
+    int i_bottom;
+
+    int i_charleft;
+    int i_charbottom;
+
+    int i_drcs_num;
+    unsigned int drcs_conv_table[188];
+
+    bool b_use_private_conv;
+
+    bool b_replace_ellipsis;
+
+    arib_buf_region_t *p_region;
+    bool b_need_next_region;
+};
 
 void decoder_adjust_position( arib_decoder_t *decoder )
 {
