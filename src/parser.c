@@ -36,6 +36,7 @@
 #include "png.h"
 #include "md5.h"
 #include "aribb24/aribb24.h"
+#include "aribb24/parser.h"
 #include "aribb24/bits.h"
 #include "aribb24_private.h"
 #include "parser_private.h"

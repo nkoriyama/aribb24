@@ -23,7 +23,7 @@
 #ifndef ARIBB24_PARSER_H
 #define ARIBB24_PARSER_H 1
 
-#include "aribb24/aribb24.h"
+#include "aribb24.h"
 
 #define DEBUG_ARIBSUB 1
 
