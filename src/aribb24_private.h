@@ -30,6 +30,9 @@ struct arib_instance_private_t
     arib_decoder_t *p_decoder;
     arib_parser_t *p_parser;
     char *psz_base_path;
+    char *psz_last_error;
 };
+
+void arib_log( arib_instance_t *, const char *, ... );
 
 #endif

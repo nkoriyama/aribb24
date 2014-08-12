@@ -23,9 +23,18 @@
 #ifndef ARIBB24_MAIN_C
 #define ARIBB24_MAIN_C 1
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
+#ifdef HAVE_VASPRINTF
+#define _GNU_SOURCE
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "aribb24/aribb24.h"
 #include "aribb24_private.h"
@@ -33,6 +42,31 @@
 #include "parser_private.h"
 #include "aribb24/decoder.h"
 #include "decoder_private.h"
+
+void arib_log( arib_instance_t *p_instance, const char *psz_format, ... )
+{
+#ifdef HAVE_VASPRINTF
+    va_list args;
+    free( p_instance->p->psz_last_error );
+    va_start( args, psz_format );
+    if ( vasprintf( &p_instance->p->psz_last_error, psz_format, args ) < 0 )
+    {
+        p_instance->p->psz_last_error = NULL;
+        return;
+    }
+
+    if ( p_instance->p->pf_messages )
+    {
+        p_instance->p->pf_messages( p_instance->p->p_opaque,
+                                    p_instance->p->psz_last_error );
+    }
+    else
+    {
+        // vprintf ?
+    }
+    va_end( args );
+#endif
+}
 
 arib_instance_t * arib_instance_new( void *p_opaque )
 {
@@ -56,6 +90,7 @@ void arib_instance_destroy( arib_instance_t *p_instance )
         arib_decoder_free( p_instance->p->p_decoder ); 
     if ( p_instance->p->p_parser )
         arib_parser_free( p_instance->p->p_parser ); 
+    free( p_instance->p->psz_last_error );
     free( p_instance );
 }
 
