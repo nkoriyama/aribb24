@@ -23,17 +23,16 @@
 #ifndef ARIBB24_MAIN_C
 #define ARIBB24_MAIN_C 1
 
-#include "aribb24/aribb24.h"
-#include "aribb24_private.h"
-
-#include "aribb24/parser.h"
-#include "parser_private.h"
-#include "aribb24/decoder.h"
-#include "decoder_private.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "aribb24/aribb24.h"
+#include "aribb24_private.h"
+
+#include "parser_private.h"
+#include "aribb24/decoder.h"
+#include "decoder_private.h"
 
 arib_instance_t * arib_instance_new( void *p_opaque )
 {
