@@ -78,12 +78,6 @@ struct arib_parser_t
     size_t            i_subtitle_data_size;
     unsigned char     *psz_subtitle_data;
 
-    char              *psz_fontname;
-    bool              b_ignore_ruby;
-    bool              b_use_coretext;
-    bool              b_ignore_position_adjustment;
-    bool              b_replace_ellipsis;
-
 #ifdef ARIBSUB_GEN_DRCS_DATA
     drcs_data_t       *p_drcs_data;
 #endif //ARIBSUB_GEN_DRCS_DATA
