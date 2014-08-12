@@ -1435,7 +1435,10 @@ int arib_decode_buffer( arib_decoder_t* decoder,
     {
         dump( buf, decoder->buf );
     }
-    return ucount - decoder->ucount;
+    int i_size = ucount - decoder->ucount;
+    if ( ucount )
+        ubuf[ i_size ] = 0;
+    return i_size;
 }
 
 arib_decoder_t * arib_decoder_new( arib_instance_t *p_instance )
