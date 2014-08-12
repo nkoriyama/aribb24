@@ -20,6 +20,9 @@ AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
+PKG_CHECK_MODULES(PNG, "libpng", [
+  AC_DEFINE(HAVE_PNG, 1, "have libpng")
+], [])
 
 # Checks for header files.
 AC_CHECK_HEADERS([inttypes.h stddef.h stdint.h stdlib.h string.h])
@@ -37,8 +40,8 @@ AC_TYPE_UINT64_T
 AC_TYPE_UINT8_T
 
 # Checks for library functions.
-AC_CHECK_FUNCS([memset mkdir sqrt strchr strdup strstr strtoul])
+AC_CHECK_FUNCS([memset mkdir sqrt strchr strdup strstr strtoul vasprintf])
 
 AC_CONFIG_FILES([Makefile
-                 src/Makefile])
+                 src/Makefile src/aribb24.pc])
 AC_OUTPUT

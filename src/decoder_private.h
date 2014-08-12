@@ -1,9 +1,9 @@
 /*****************************************************************************
- * parser.h : ARIB STD-B24 bitstream parser
+ * decoder_private.h : ARIB STD-B24 JIS 8bit character code decoder
  *****************************************************************************
- * Copyright (C) 2014 Naohiro KORIYAMA
+ * Copyright (C) 2014 François Cartegnie
  *
- * Authors:  Naohiro KORIYAMA <nkoriyama@gmail.com>
+ * Authors:  François Cartegnie <fcvlcdev@free.fr>
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -20,19 +20,10 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-#ifndef ARIBB24_PARSER_H
-#define ARIBB24_PARSER_H 1
+#ifndef DECODER_PRIVATE_H
+#define DECODER_PRIVATE_H 1
 
-#include "aribb24.h"
-
-#define DEBUG_ARIBSUB 1
-
-/****************************************************************************
- * Local structures
- ****************************************************************************/
-
-ARIB_API void arib_parse_pes( arib_parser_t *, const void *p_data, size_t i_data );
-ARIB_API const unsigned char * arib_parser_get_data( arib_parser_t *, size_t * );
-
+arib_decoder_t * arib_decoder_new( arib_instance_t *p_instance );
+void arib_decoder_free( arib_decoder_t * );
 
 #endif

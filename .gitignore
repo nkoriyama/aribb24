@@ -12,3 +12,5 @@ Makefile.in
 /install-sh
 /missing
 /stamp-h1
+/src/.libs
+/src/.deps
