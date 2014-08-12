@@ -172,7 +172,7 @@ struct arib_decoder_t
     bool b_need_next_region;
 };
 
-void decoder_adjust_position( arib_decoder_t *decoder )
+static void decoder_adjust_position( arib_decoder_t *decoder )
 {
 #if 0
     if( decoder->i_charleft < decoder->i_left )
@@ -194,7 +194,7 @@ void decoder_adjust_position( arib_decoder_t *decoder )
     decoder->b_need_next_region = true;
 }
 
-int u8_uctomb_aux( unsigned char *s, unsigned int uc, int n )
+static int u8_uctomb_aux( unsigned char *s, unsigned int uc, int n )
 {
     int count;
 
@@ -234,7 +234,7 @@ int u8_uctomb_aux( unsigned char *s, unsigned int uc, int n )
     return count;
 }
 
-int u8_uctomb( unsigned char *s, unsigned int uc, int n )
+static int u8_uctomb( unsigned char *s, unsigned int uc, int n )
 {
     if( uc < 0x80 && n > 0 )
     {
@@ -247,7 +247,7 @@ int u8_uctomb( unsigned char *s, unsigned int uc, int n )
     }
 }
 
-arib_buf_region_t *prepare_new_region( arib_decoder_t *decoder,
+static arib_buf_region_t *prepare_new_region( arib_decoder_t *decoder,
                                               char *p_start,
                                               int i_veradj,
                                               int i_horadj )
@@ -287,7 +287,7 @@ arib_buf_region_t *prepare_new_region( arib_decoder_t *decoder,
     return p_region;
 }
 
-int decoder_push( arib_decoder_t *decoder, unsigned int uc )
+static int decoder_push( arib_decoder_t *decoder, unsigned int uc )
 {
     char *p_start = decoder->ubuf;
 
@@ -479,7 +479,7 @@ int decoder_push( arib_decoder_t *decoder, unsigned int uc )
     return 1;
 }
 
-int decoder_pull( arib_decoder_t *decoder, int *c )
+static int decoder_pull( arib_decoder_t *decoder, int *c )
 {
     if( decoder->count == 0 )
     {
@@ -493,7 +493,7 @@ int decoder_pull( arib_decoder_t *decoder, int *c )
     return 1;
 }
 
-int decoder_handle_drcs( arib_decoder_t *decoder, int c )
+static int decoder_handle_drcs( arib_decoder_t *decoder, int c )
 {
     unsigned int uc;
 
@@ -512,7 +512,7 @@ int decoder_handle_drcs( arib_decoder_t *decoder, int c )
     return decoder_push( decoder, uc );
 }
 
-int decoder_handle_alnum( arib_decoder_t *decoder, int c )
+static int decoder_handle_alnum( arib_decoder_t *decoder, int c )
 {
     unsigned int uc;
     uc = decoder_alnum_table[c];
@@ -520,21 +520,21 @@ int decoder_handle_alnum( arib_decoder_t *decoder, int c )
     return decoder_push( decoder, uc );
 }
 
-int decoder_handle_hiragana( arib_decoder_t *decoder, int c )
+static int decoder_handle_hiragana( arib_decoder_t *decoder, int c )
 {
     unsigned int uc;
     uc = decoder_hiragana_table[c];
     return decoder_push( decoder, uc );
 }
 
-int decoder_handle_katakana( arib_decoder_t *decoder, int c )
+static int decoder_handle_katakana( arib_decoder_t *decoder, int c )
 {
     unsigned int uc;
     uc = decoder_katakana_table[c];
     return decoder_push( decoder, uc );
 }
 
-int decoder_handle_kanji( arib_decoder_t *decoder, int c )
+static int decoder_handle_kanji( arib_decoder_t *decoder, int c )
 {
     int ku, ten;
     unsigned int uc;
@@ -562,7 +562,7 @@ int decoder_handle_kanji( arib_decoder_t *decoder, int c )
     return decoder_push( decoder, uc );
 }
 
-int decoder_handle_gl( arib_decoder_t *decoder, int c )
+static int decoder_handle_gl( arib_decoder_t *decoder, int c )
 {
     int (*handle)(arib_decoder_t *, int);
 
@@ -586,7 +586,7 @@ int decoder_handle_gl( arib_decoder_t *decoder, int c )
     return handle( decoder, c - 0x21 );
 }
 
-int decoder_handle_gr( arib_decoder_t *decoder, int c )
+static int decoder_handle_gr( arib_decoder_t *decoder, int c )
 {
     int (*handle)(arib_decoder_t *, int);
 
@@ -600,7 +600,7 @@ int decoder_handle_gr( arib_decoder_t *decoder, int c )
     return handle( decoder, c - 0xa1 );
 }
 
-int decoder_handle_esc( arib_decoder_t *decoder )
+static int decoder_handle_esc( arib_decoder_t *decoder )
 {
     int c;
     int (**handle)(arib_decoder_t *, int);
@@ -683,7 +683,7 @@ int decoder_handle_esc( arib_decoder_t *decoder )
     return 0;
 }
 
-int decoder_handle_papf( arib_decoder_t *decoder )
+static int decoder_handle_papf( arib_decoder_t *decoder )
 {
     int c;
     int i = 0;
@@ -705,7 +705,7 @@ int decoder_handle_papf( arib_decoder_t *decoder )
     return 1;
 }
 
-int decoder_handle_aps( arib_decoder_t *decoder )
+static int decoder_handle_aps( arib_decoder_t *decoder )
 {
     int c;
     int i = 0;
@@ -728,7 +728,7 @@ int decoder_handle_aps( arib_decoder_t *decoder )
     return 1;
 }
 
-int decoder_handle_c0( arib_decoder_t *decoder, int c )
+static int decoder_handle_c0( arib_decoder_t *decoder, int c )
 {
     /* ARIB STD-B24 VOLUME 1 Part 2 Chapter 7
      * Table 7-14 Control function character set code table */
@@ -792,7 +792,7 @@ int decoder_handle_c0( arib_decoder_t *decoder, int c )
     }
 }
 
-int decoder_handle_szx( arib_decoder_t *decoder )
+static int decoder_handle_szx( arib_decoder_t *decoder )
 {
     int c;
     while( decoder_pull( decoder, &c ) != 0 )
@@ -852,7 +852,7 @@ int decoder_handle_szx( arib_decoder_t *decoder )
     return 0;
 }
 
-int decoder_handle_col( arib_decoder_t *decoder )
+static int decoder_handle_col( arib_decoder_t *decoder )
 {
     int c;
     while( decoder_pull( decoder, &c ) != 0 )
@@ -871,7 +871,7 @@ int decoder_handle_col( arib_decoder_t *decoder )
     return 0;
 }
 
-int decoder_handle_flc( arib_decoder_t *decoder )
+static int decoder_handle_flc( arib_decoder_t *decoder )
 {
     int c;
     while( decoder_pull( decoder, &c ) != 0 )
@@ -889,7 +889,7 @@ int decoder_handle_flc( arib_decoder_t *decoder )
     return 0;
 }
 
-int decoder_handle_cdc( arib_decoder_t *decoder )
+static int decoder_handle_cdc( arib_decoder_t *decoder )
 {
     int c;
     while( decoder_pull( decoder, &c ) != 0 )
@@ -905,7 +905,7 @@ int decoder_handle_cdc( arib_decoder_t *decoder )
     return 0;
 }
 
-int decoder_handle_pol( arib_decoder_t *decoder )
+static int decoder_handle_pol( arib_decoder_t *decoder )
 {
     int c;
     while( decoder_pull( decoder, &c ) != 0 )
@@ -923,7 +923,7 @@ int decoder_handle_pol( arib_decoder_t *decoder )
     return 0;
 }
 
-int decoder_handle_wmm( arib_decoder_t *decoder )
+static int decoder_handle_wmm( arib_decoder_t *decoder )
 {
     int c;
     while( decoder_pull( decoder, &c ) != 0 )
@@ -941,7 +941,7 @@ int decoder_handle_wmm( arib_decoder_t *decoder )
     return 0;
 }
 
-int decoder_handle_macro( arib_decoder_t *decoder )
+static int decoder_handle_macro( arib_decoder_t *decoder )
 {
     int c;
     while( decoder_pull( decoder, &c ) != 0 )
@@ -959,7 +959,7 @@ int decoder_handle_macro( arib_decoder_t *decoder )
     return 0;
 }
 
-int decoder_handle_hlc( arib_decoder_t *decoder )
+static int decoder_handle_hlc( arib_decoder_t *decoder )
 {
     int c;
     while( decoder_pull( decoder, &c ) != 0 )
@@ -990,7 +990,7 @@ int decoder_handle_hlc( arib_decoder_t *decoder )
     return 0;
 }
 
-int decoder_handle_rpc( arib_decoder_t *decoder )
+static int decoder_handle_rpc( arib_decoder_t *decoder )
 {
     int c;
     while( decoder_pull( decoder, &c ) != 0 )
@@ -1004,7 +1004,7 @@ int decoder_handle_rpc( arib_decoder_t *decoder )
     return 0;
 }
 
-int decoder_handle_csi( arib_decoder_t *decoder )
+static int decoder_handle_csi( arib_decoder_t *decoder )
 {
     int idx = 0;
     int buf[256];
@@ -1148,7 +1148,7 @@ int decoder_handle_csi( arib_decoder_t *decoder )
     return 0;
 }
 
-int decoder_handle_time( arib_decoder_t *decoder )
+static int decoder_handle_time( arib_decoder_t *decoder )
 {
     int c;
     int i_mode = 0;
@@ -1302,8 +1302,8 @@ int decoder_handle_c1( arib_decoder_t *decoder, int c )
     }
 }
 
-int arib_decode( arib_decoder_t *decoder );
-int decoder_handle_default_macro( arib_decoder_t *decoder, int c )
+static int arib_decode( arib_decoder_t *decoder );
+static int decoder_handle_default_macro( arib_decoder_t *decoder, int c )
 {
     c=c+0x21;
     if( c >= 0x60 && c <= 0x6f )
@@ -1391,7 +1391,7 @@ int decoder_handle_default_macro( arib_decoder_t *decoder, int c )
     return 0;
 }
 
-void dump( const unsigned char *start, const unsigned char *end )
+static void dump( const unsigned char *start, const unsigned char *end )
 {
 #ifdef DEBUG_ARIBB24DEC
     fprintf( stderr, "could not decode ARIB string:\n" );
@@ -1403,7 +1403,7 @@ void dump( const unsigned char *start, const unsigned char *end )
 #endif //DEBUG_ARIBB24DEC
 }
 
-int arib_decode( arib_decoder_t *decoder )
+static int arib_decode( arib_decoder_t *decoder )
 {
     int (*handle)(arib_decoder_t *, int);
     int c;
@@ -1492,7 +1492,7 @@ void arib_initialize_decoder( arib_decoder_t* decoder )
     decoder->b_need_next_region = true;
 }
 
-void arib_initialize_decoder_size_related( arib_decoder_t* decoder,
+static void arib_initialize_decoder_size_related( arib_decoder_t* decoder,
         int i_planewidth, int i_planeheight, int i_width, int i_height, int i_left, int i_top,
         int i_fontwidth, int i_fontheight, int i_horint, int i_verint
         )
