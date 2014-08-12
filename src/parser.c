@@ -798,13 +798,18 @@ arib_parser_t * arib_parser_new( arib_instance_t *p_instance )
     if ( !p_parser )
        return NULL;
     p_parser->p_instance = p_instance;
+    arib_log( p_parser->p_instance, "arib parser was created" );
     if ( p_instance->p->psz_base_path )
+    {
         load_drcs_conversion_table( p_parser );
+        arib_log( p_parser->p_instance, "could not load drcs conversion table" );
+    }
     return p_parser;
 }
 
 void arib_parser_free( arib_parser_t *p_parser )
 {
+    arib_log( p_parser->p_instance, "arib parser was destroyed" );
     free( p_parser );
 }
 

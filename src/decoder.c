@@ -1392,16 +1392,15 @@ static int decoder_handle_default_macro( arib_decoder_t *decoder, int c )
     return 0;
 }
 
-static void dump( const unsigned char *start, const unsigned char *end )
+static void dump( arib_instance_t *p_instance,
+                  const unsigned char *start, const unsigned char *end )
 {
-#ifdef DEBUG_ARIBB24DEC
-    fprintf( stderr, "could not decode ARIB string:\n" );
+    arib_log( p_instance, "could not decode ARIB string:" );
     while( start < end )
     {
-        fprintf( stderr, "%02x ", *start++ );
+        arib_log( p_instance, "%02x ", *start++ );
     }
-    fprintf( stderr, "<- here\n" );
-#endif //DEBUG_ARIBB24DEC
+    arib_log( p_instance, "<- here" );
 }
 
 static int arib_decode( arib_decoder_t *decoder )
@@ -1567,7 +1566,7 @@ size_t arib_decode_buffer( arib_decoder_t* decoder,
 
     if( arib_decode( decoder ) == 0 )
     {
-        dump( buf, decoder->buf );
+        dump( decoder->p_instance, buf, decoder->buf );
     }
     size_t i_size = ucount - decoder->ucount;
     if ( ucount )
@@ -1581,12 +1580,14 @@ arib_decoder_t * arib_decoder_new( arib_instance_t *p_instance )
     if ( !p_decoder )
         return NULL;
     p_decoder->p_instance = p_instance;
+    arib_log( p_decoder->p_instance, "arib decoder was created" );
     return p_decoder;
 }
 
 void arib_decoder_free( arib_decoder_t *p_decoder )
 {
     arib_finalize_decoder( p_decoder );
+    arib_log( p_decoder->p_instance, "arib decoder destroyed" );
     free( p_decoder );
 }
 
