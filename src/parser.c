@@ -29,6 +29,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <fcntl.h>
 #include <math.h>
 #include <ctype.h>
 #include <sys/stat.h>
@@ -259,13 +260,14 @@ static FILE* open_image_file( arib_parser_t* p_parser, const char *psz_hash )
         return NULL;
     }
 
-    struct stat st;
-    if( stat( psz_image_file, &st ) )
+    int fd = open( psz_image_file, O_CREAT | O_EXCL | O_WRONLY );
+    if ( fd != -1 )
     {
-        fp = fopen( psz_image_file, "wb" );
+        fp = fdopen( fd, "wb" );
         if( fp == NULL )
         {
-            // ERROR
+            arib_log( p_parser->p_instance, "Failed creating image file %s", psz_image_file );
+            close( fd );
         }
     }
 
