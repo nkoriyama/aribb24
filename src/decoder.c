@@ -1584,6 +1584,7 @@ arib_decoder_t * arib_decoder_new( arib_instance_t *p_instance )
 
 void arib_decoder_free( arib_decoder_t *p_decoder )
 {
+    arib_finalize_decoder( p_decoder );
     free( p_decoder );
 }
 
