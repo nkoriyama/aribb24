@@ -802,3 +802,9 @@ void arib_parser_free( arib_parser_t *p_parser )
 {
     free( p_parser );
 }
+
+const unsigned char * arib_parser_get_data( arib_parser_t *p_parser, size_t *pi_size )
+{
+    *pi_size = p_parser->i_subtitle_data_size;
+    return p_parser->psz_subtitle_data;
+}

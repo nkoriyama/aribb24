@@ -32,6 +32,7 @@
  ****************************************************************************/
 
 void arib_parse_pes( arib_parser_t *, const void *p_data, size_t i_data );
+const unsigned char * arib_parser_get_data( arib_parser_t *, size_t * );
 
 
 #endif
