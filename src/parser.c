@@ -72,7 +72,7 @@ struct arib_parser_t
     arib_data_group_t data_group;
 #endif
     uint32_t          i_data_unit_size;
-    int               i_subtitle_data_size;
+    size_t            i_subtitle_data_size;
     unsigned char     *psz_subtitle_data;
 
     char              *psz_fontname;
