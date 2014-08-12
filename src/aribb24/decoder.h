@@ -59,20 +59,20 @@ typedef struct arib_buf_region_s
     struct arib_buf_region_s *p_next;
 } arib_buf_region_t;
 
-void arib_initialize_decoder( arib_decoder_t* decoder );
+ARIB_API void arib_initialize_decoder( arib_decoder_t* decoder );
 
-void arib_initialize_decoder_a_profile( arib_decoder_t* decoder );
+ARIB_API void arib_initialize_decoder_a_profile( arib_decoder_t* decoder );
 
-void arib_initialize_decoder_c_profile( arib_decoder_t* decoder );
+ARIB_API void arib_initialize_decoder_c_profile( arib_decoder_t* decoder );
 
-void arib_finalize_decoder( arib_decoder_t* decoder );
+ARIB_API void arib_finalize_decoder( arib_decoder_t* decoder );
 
-size_t arib_decode_buffer( arib_decoder_t* decoder,
-                           const unsigned char *buf, size_t count,
-                           char *ubuf, size_t ucount );
+ARIB_API size_t arib_decode_buffer( arib_decoder_t* decoder,
+                                    const unsigned char *buf, size_t count,
+                                    char *ubuf, size_t ucount );
 
-time_t arib_decoder_get_time( arib_decoder_t *decoder );
+ARIB_API time_t arib_decoder_get_time( arib_decoder_t *decoder );
 
-const arib_buf_region_t * arib_decoder_get_regions( arib_decoder_t * ); 
+ARIB_API const arib_buf_region_t * arib_decoder_get_regions( arib_decoder_t * ); 
 
 #endif

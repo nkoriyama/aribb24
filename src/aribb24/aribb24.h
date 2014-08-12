@@ -25,6 +25,29 @@
 
 #include <stdbool.h>
 
+#if defined _WIN32 || defined __CYGWIN__
+  #ifdef BUILDING_DLL
+    #ifdef __GNUC__
+      #define ARIB_API __attribute__ ((dllexport))
+    #else
+      #define ARIB_API __declspec(dllexport)
+    #endif
+  #else
+    #ifdef __GNUC__
+      #define ARIB_API __attribute__ ((dllimport))
+    #else
+      #define ARIB_API __declspec(dllimport)
+    #endif
+  #endif
+  #define DLL_LOCAL
+#else
+  #if __GNUC__ >= 4
+    #define ARIB_API __attribute__ ((visibility ("default")))
+  #else
+    #define ARIB_API
+  #endif
+#endif
+
 typedef struct arib_instance_private_t arib_instance_private_t;
 typedef struct arib_instance_t 
 {
@@ -37,15 +60,15 @@ typedef struct arib_parser_t arib_parser_t;
 typedef struct arib_decoder_t arib_decoder_t;
 typedef void(* arib_messages_callback_t)(void *, const char *);
 
-arib_instance_t * arib_instance_new( void * );
-void arib_instance_destroy( arib_instance_t * ); 
+ARIB_API arib_instance_t * arib_instance_new( void * );
+ARIB_API void arib_instance_destroy( arib_instance_t * ); 
 
-void arib_set_base_path( arib_instance_t *, const char * );
+ARIB_API void arib_set_base_path( arib_instance_t *, const char * );
 
-arib_parser_t * arib_get_parser( arib_instance_t * );
-arib_decoder_t * arib_get_decoder( arib_instance_t * );
+ARIB_API arib_parser_t * arib_get_parser( arib_instance_t * );
+ARIB_API arib_decoder_t * arib_get_decoder( arib_instance_t * );
 
-void arib_register_messages_callback( arib_instance_t *,
+ARIB_API void arib_register_messages_callback( arib_instance_t *,
                                       arib_messages_callback_t );
 
 #endif
