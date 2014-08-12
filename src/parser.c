@@ -118,7 +118,7 @@ static bool create_arib_basedir( arib_parser_t *p_parser )
     struct stat st;
     if( stat( psz_arib_base_path, &st ) )
     {
-        if( mkdir( psz_arib_base_path, 0777) != 0 )
+        if( mkdir( psz_arib_base_path, 0700) != 0 )
         {
             return false;
         }
@@ -138,7 +138,7 @@ static bool create_arib_datadir( arib_parser_t *p_parser )
     struct stat st;
     if( stat( psz_arib_data_dir, &st ) )
     {
-        if( mkdir( psz_arib_data_dir, 0777) == 0 )
+        if( mkdir( psz_arib_data_dir, 0700) == 0 )
         {
             free( psz_arib_data_dir );
             return false;
