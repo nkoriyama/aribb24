@@ -33,7 +33,9 @@
 #include <ctype.h>
 #include <sys/stat.h>
 
-#include "png.h"
+#ifdef HAVE_PNG
+  #include "png.h"
+#endif
 #include "md5.h"
 #include "aribb24/aribb24.h"
 #include "aribb24/parser.h"
@@ -290,6 +292,7 @@ void save_drcs_pattern_data_image(
         int i_width, int i_height,
         int i_depth, const int8_t* p_patternData )
 {
+#ifdef HAVE_PNG
     FILE *fp = open_image_file( p_parser, psz_hash );
     if( fp == NULL )
     {
@@ -383,6 +386,7 @@ png_create_info_struct_failed:
     png_destroy_write_struct( &png_ptr, &info_ptr );
 png_create_write_struct_failed:
     fclose( fp );
+#endif
 }
 
 void save_drcs_pattern(

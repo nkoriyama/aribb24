@@ -20,6 +20,9 @@ AC_PROG_MAKE_SET
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
+PKG_CHECK_MODULES(PNG, "libpng", [
+  AC_DEFINE(HAVE_PNG, 1, "have libpng")
+], [])
 
 # Checks for header files.
 AC_CHECK_HEADERS([inttypes.h stddef.h stdint.h stdlib.h string.h])
