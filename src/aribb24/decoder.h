@@ -71,4 +71,6 @@ size_t arib_decode_buffer( arib_decoder_t* decoder,
                            const unsigned char *buf, size_t count,
                            char *ubuf, size_t ucount );
 
+time_t arib_decoder_get_time( arib_decoder_t *decoder );
+
 #endif

@@ -1594,3 +1594,8 @@ void arib_decoder_free( arib_decoder_t *p_decoder )
 {
     free( p_decoder );
 }
+
+time_t arib_decoder_get_time( arib_decoder_t *p_decoder )
+{
+    return (time_t) p_decoder->i_control_time * 1000000 / 10;
+}
