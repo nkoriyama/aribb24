@@ -107,12 +107,12 @@ static char* get_arib_data_dir( arib_parser_t *p_parser )
     return psz_arib_data_dir;
 }
 
-static void create_arib_basedir( arib_parser_t *p_parser )
+static bool create_arib_basedir( arib_parser_t *p_parser )
 {
     const char *psz_arib_base_path = p_parser->p_instance->p->psz_base_path;
     if( psz_arib_base_path == NULL )
     {
-        return;
+        return false;
     }
 
     struct stat st;
@@ -120,18 +120,19 @@ static void create_arib_basedir( arib_parser_t *p_parser )
     {
         if( mkdir( psz_arib_base_path, 0777) != 0 )
         {
-            // ERROR
+            return false;
         }
     }
+    return true;
 }
 
-static void create_arib_datadir( arib_parser_t *p_parser )
+static bool create_arib_datadir( arib_parser_t *p_parser )
 {
     create_arib_basedir( p_parser );
     char *psz_arib_data_dir = get_arib_data_dir( p_parser );
     if( psz_arib_data_dir == NULL )
     {
-        return;
+        return false;
     }
 
     struct stat st;
@@ -139,20 +140,23 @@ static void create_arib_datadir( arib_parser_t *p_parser )
     {
         if( mkdir( psz_arib_data_dir, 0777) == 0 )
         {
-            // ERROR
+            free( psz_arib_data_dir );
+            return false;
         }
     }
 
     free( psz_arib_data_dir );
+    return true;
 }
 
-static void load_drcs_conversion_table( arib_parser_t *p_parser )
+static bool load_drcs_conversion_table( arib_parser_t *p_parser )
 {
-    create_arib_basedir( p_parser );
+    if ( !create_arib_basedir( p_parser ) )
+        return false;
     const char *psz_arib_base_path = p_parser->p_instance->p->psz_base_path;
     if( psz_arib_base_path == NULL )
     {
-        return;
+        return false;
     }
 
     char* psz_conv_file;
@@ -162,14 +166,14 @@ static void load_drcs_conversion_table( arib_parser_t *p_parser )
     }
     if( psz_conv_file == NULL )
     {
-        return;
+        return false;
     }
 
     FILE *fp = fopen( psz_conv_file, "r" );
     free( psz_conv_file );
     if( fp == NULL )
     {
-        return;
+        return false;
     }
 
     drcs_conversion_t *p_drcs_conv = NULL;
@@ -229,12 +233,14 @@ static void load_drcs_conversion_table( arib_parser_t *p_parser )
     }
 
     fclose( fp );
+    return true;
 }
 
 static FILE* open_image_file( arib_parser_t* p_parser, const char *psz_hash )
 {
     FILE* fp = NULL;
-    create_arib_datadir( p_parser );
+    if ( !create_arib_datadir( p_parser ) )
+        return NULL;
 
     char *psz_arib_data_dir = get_arib_data_dir( p_parser );
     if( psz_arib_data_dir == NULL )
