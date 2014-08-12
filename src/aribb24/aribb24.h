@@ -29,6 +29,8 @@ typedef struct arib_instance_private_t arib_instance_private_t;
 typedef struct arib_instance_t 
 {
     bool b_generate_drcs;
+    bool b_use_private_conv;
+    bool b_replace_ellipsis;
     arib_instance_private_t *p;
 } arib_instance_t;
 typedef struct arib_parser_t arib_parser_t;

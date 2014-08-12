@@ -168,10 +168,6 @@ struct arib_decoder_t
     int i_drcs_num;
     unsigned int drcs_conv_table[188];
 
-    bool b_use_private_conv;
-
-    bool b_replace_ellipsis;
-
     arib_buf_region_t *p_region;
     bool b_need_next_region;
 };
@@ -295,7 +291,7 @@ int decoder_push( arib_decoder_t *decoder, unsigned int uc )
 {
     char *p_start = decoder->ubuf;
 
-    if( decoder->b_replace_ellipsis && uc == 0x2026 )
+    if( decoder->p_instance->b_replace_ellipsis && uc == 0x2026 )
     {
         // U+2026: HORIZONTAL ELLIPSIS
         // U+22EF: MIDLINE HORIZONTAL ELLIPSIS
@@ -554,7 +550,7 @@ int decoder_handle_kanji( arib_decoder_t *decoder, int c )
     ten = c;
 
     uc = decoder_kanji_table[ku][ten];
-    if (decoder->b_use_private_conv && ku >= 89)
+    if (decoder->p_instance->b_use_private_conv && ku >= 89)
     {
         uc = decoder_private_conv_table[ku -89][ten];
     }
@@ -1491,10 +1487,6 @@ void arib_initialize_decoder( arib_decoder_t* decoder )
 
     decoder->i_drcs_num = 0;
     memset( decoder->drcs_conv_table, 0, sizeof(decoder->drcs_conv_table) );
-
-    decoder->b_use_private_conv = true;
-
-    decoder->b_replace_ellipsis = false;
 
     decoder->p_region = NULL;
     decoder->b_need_next_region = true;
