@@ -96,7 +96,7 @@ struct arib_parser_t
 
 
 
-char* get_arib_data_dir( arib_parser_t *p_parser )
+static char* get_arib_data_dir( arib_parser_t *p_parser )
 {
     const char *psz_arib_base_path = p_parser->p_instance->p->psz_base_path;
     if( psz_arib_base_path == NULL )
@@ -113,7 +113,7 @@ char* get_arib_data_dir( arib_parser_t *p_parser )
     return psz_arib_data_dir;
 }
 
-void create_arib_basedir( arib_parser_t *p_parser )
+static void create_arib_basedir( arib_parser_t *p_parser )
 {
     const char *psz_arib_base_path = p_parser->p_instance->p->psz_base_path;
     if( psz_arib_base_path == NULL )
@@ -131,7 +131,7 @@ void create_arib_basedir( arib_parser_t *p_parser )
     }
 }
 
-void create_arib_datadir( arib_parser_t *p_parser )
+static void create_arib_datadir( arib_parser_t *p_parser )
 {
     create_arib_basedir( p_parser );
     char *psz_arib_data_dir = get_arib_data_dir( p_parser );
@@ -237,7 +237,7 @@ static void load_drcs_conversion_table( arib_parser_t *p_parser )
     fclose( fp );
 }
 
-FILE* open_image_file( arib_parser_t* p_parser, const char *psz_hash )
+static FILE* open_image_file( arib_parser_t* p_parser, const char *psz_hash )
 {
     FILE* fp = NULL;
     create_arib_datadir( p_parser );
@@ -273,7 +273,7 @@ FILE* open_image_file( arib_parser_t* p_parser, const char *psz_hash )
     return fp;
 }
 
-char* get_drcs_pattern_data_hash(
+static char* get_drcs_pattern_data_hash(
         arib_parser_t *p_parser,
         int i_width, int i_height,
         int i_depth, const int8_t* p_patternData )
@@ -286,7 +286,7 @@ char* get_drcs_pattern_data_hash(
     return psz_md5_hash( &md5 );
 }
 
-void save_drcs_pattern_data_image(
+static void save_drcs_pattern_data_image(
         arib_parser_t *p_parser,
         const char* psz_hash,
         int i_width, int i_height,
@@ -389,7 +389,7 @@ png_create_write_struct_failed:
 #endif
 }
 
-void save_drcs_pattern(
+static void save_drcs_pattern(
         arib_parser_t *p_parser,
         int i_width, int i_height,
         int i_depth, const int8_t* p_patternData )
@@ -408,9 +408,9 @@ void save_drcs_pattern(
     free( psz_hash );
 }
 
-void parse_data_unit_statement_body( arib_parser_t *p_parser, bs_t *p_bs,
-                                           uint8_t i_data_unit_parameter,
-                                           uint32_t i_data_unit_size )
+static void parse_data_unit_statement_body( arib_parser_t *p_parser, bs_t *p_bs,
+                                            uint8_t i_data_unit_parameter,
+                                            uint32_t i_data_unit_size )
 {
     char* p_data_unit_data_byte = (char*) calloc(
             i_data_unit_size + 1, sizeof(char) );
@@ -432,7 +432,7 @@ void parse_data_unit_statement_body( arib_parser_t *p_parser, bs_t *p_bs,
     free( p_data_unit_data_byte );
 }
 
-void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
+static void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
                                   uint8_t i_data_unit_parameter,
                                   uint32_t i_data_unit_size )
 {
@@ -614,7 +614,7 @@ void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
     }
 }
 
-void parse_data_unit_others( arib_parser_t *p_parser, bs_t *p_bs,
+static void parse_data_unit_others( arib_parser_t *p_parser, bs_t *p_bs,
                                     uint8_t i_data_unit_parameter,
                                     uint32_t i_data_unit_size )
 {
@@ -630,7 +630,7 @@ void parse_data_unit_others( arib_parser_t *p_parser, bs_t *p_bs,
  *****************************************************************************
  * ARIB STD-B24 VOLUME 1 Part 3 Chapter 9.4 Structure of data unit
  *****************************************************************************/
-void parse_data_unit( arib_parser_t *p_parser, bs_t *p_bs )
+static void parse_data_unit( arib_parser_t *p_parser, bs_t *p_bs )
 {
     uint8_t i_unit_separator = bs_read( p_bs, 8 );
     p_parser->i_data_unit_size += 1;
@@ -668,7 +668,7 @@ void parse_data_unit( arib_parser_t *p_parser, bs_t *p_bs )
  *****************************************************************************
  * ARIB STD-B24 VOLUME 1 Part 3 Chapter 9.3.1 Caption management data
  *****************************************************************************/
-void parse_caption_management_data( arib_parser_t *p_parser, bs_t *p_bs )
+static void parse_caption_management_data( arib_parser_t *p_parser, bs_t *p_bs )
 {
     uint8_t i_TMD = bs_read( p_bs, 2 );
     bs_skip( p_bs, 6 ); /* Reserved */
@@ -716,7 +716,7 @@ void parse_caption_management_data( arib_parser_t *p_parser, bs_t *p_bs )
  *****************************************************************************
  * ARIB STD-B24 VOLUME 1 Part 3 Chapter 9.3.2 Caption statement data
  *****************************************************************************/
-void parse_caption_statement_data( arib_parser_t *p_parser, bs_t *p_bs )
+static void parse_caption_statement_data( arib_parser_t *p_parser, bs_t *p_bs )
 {
     uint8_t i_TMD = bs_read( p_bs, 2 );
     bs_skip( p_bs, 6 ); /* Reserved */
@@ -746,7 +746,7 @@ void parse_caption_statement_data( arib_parser_t *p_parser, bs_t *p_bs )
  *****************************************************************************
  * ARIB STD-B24 VOLUME 1 Part 3 Chapter 9.2 Structure of data group
  *****************************************************************************/
-void parse_data_group( arib_parser_t *p_parser, bs_t *p_bs )
+static void parse_data_group( arib_parser_t *p_parser, bs_t *p_bs )
 {
     uint8_t i_data_group_id = bs_read( p_bs, 6 );
     bs_skip( p_bs, 2 ); /* i_data_group_version */
