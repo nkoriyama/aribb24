@@ -55,6 +55,17 @@
 #   define PATH_SEP ":"
 #endif
 
+#if defined( _WIN32 ) || defined( __SYMBIAN32__ ) || defined( __OS2__ )
+#   define S_IRGRP 0
+#   define S_IWGRP 0
+#   define S_IXGRP 0
+#   define S_IRWXG (S_IRGRP | S_IWGRP | S_IXGRP)
+#   define S_IROTH 0
+#   define S_IWOTH 0
+#   define S_IXOTH 0
+#   define S_IRWXO (S_IROTH | S_IWOTH | S_IXOTH)
+#endif
+
 static char* get_arib_data_dir( arib_instance_t *p_instance )
 {
     const char *psz_arib_base_path = p_instance->p->psz_base_path;
