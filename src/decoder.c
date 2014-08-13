@@ -20,10 +20,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-# include "config.h"
-#endif
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -32,8 +28,8 @@
 #include "aribb24/decoder.h"
 #include "aribb24_private.h"
 #include "decoder_private.h"
-#include "aribb24/convtable.h"
-#include "aribb24/decoder_macro.h"
+#include "convtable.h"
+#include "decoder_macro.h"
 
 #if 0
 /*****************************************************************************
@@ -1153,7 +1149,7 @@ static int decoder_handle_time( arib_decoder_t *decoder )
     return 0;
 }
 
-int decoder_handle_c1( arib_decoder_t *decoder, int c )
+static int decoder_handle_c1( arib_decoder_t *decoder, int c )
 {
     /* ARIB STD-B24 VOLUME 1 Part 2 Chapter 7
      * Table 7-14 Control function character set code table */

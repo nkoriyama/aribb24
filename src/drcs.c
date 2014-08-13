@@ -20,11 +20,6 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-#ifdef HAVE_CONFIG_H
-# include "config.h"
-#endif
-
-#define _GNU_SOURCE
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
@@ -39,10 +34,10 @@
   #include "png.h"
 #endif
 #include "aribb24/aribb24.h"
-#include "aribb24/md5.h"
 #include "aribb24/bits.h"
 #include "aribb24_private.h"
 #include "drcs.h"
+#include "md5.h"
 
 #if defined( _WIN32 ) || defined( __SYMBIAN32__ ) || defined( __OS2__ )
 #   define mkdir(a,b) mkdir(a)
@@ -116,38 +111,6 @@ static bool create_arib_datadir( arib_instance_t *p_instance )
     }
 
     free( psz_arib_data_dir );
-    return true;
-}
-
-bool apply_drcs_conversion_table( arib_instance_t *p_instance )
-{
-    for( int i = 0; i < p_instance->p->i_drcs_num; i++ )
-    {
-        unsigned int uc = 0;
-        drcs_conversion_t *p_drcs_conv = p_instance->p->p_drcs_conv;
-        while( p_drcs_conv != NULL )
-        {
-            if( strcmp( p_drcs_conv->hash, p_instance->p->drcs_hash_table[i] ) == 0 )
-            {
-                uc = p_drcs_conv->code;
-                break;
-            }
-            p_drcs_conv = p_drcs_conv->p_next;
-        }
-#ifdef DEBUG_ARIBSUB
-        if( uc )
-        {
-            arib_log( p_instance, "Mapping [%s=U+%04x] will be used.",
-                      p_instance->p->drcs_hash_table[i], uc );
-        }
-        else
-        {
-            arib_log( p_instance, "Mapping for hash[%s] is not found.",
-                      p_instance->p->drcs_hash_table[i] );
-        }
-#endif
-        p_instance->p->drcs_conv_table[i] = uc;
-    }
     return true;
 }
 
@@ -261,7 +224,7 @@ static FILE* open_image_file( arib_instance_t* p_instance, const char *psz_hash 
         return NULL;
     }
 
-    int fd = open( psz_image_file, O_CREAT | O_EXCL | O_WRONLY );
+    int fd = open( psz_image_file, O_CREAT | O_EXCL | O_WRONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH );
     if ( fd != -1 )
     {
         fp = fdopen( fd, "wb" );
