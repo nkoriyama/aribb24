@@ -79,6 +79,7 @@ static void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
                                   uint8_t i_data_unit_parameter,
                                   uint32_t i_data_unit_size )
 {
+    p_parser->p_instance->p->i_drcs_num = 0;
 #ifdef ARIBSUB_GEN_DRCS_DATA
     if( p_parser->p_drcs_data != NULL )
     {
