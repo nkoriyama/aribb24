@@ -26,6 +26,7 @@
 #include "aribb24.h"
 
 #include <stdint.h>
+#include <time.h>
 
 typedef struct arib_buf_region_s
 {
