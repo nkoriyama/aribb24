@@ -34,6 +34,7 @@
 #include "decoder_private.h"
 #include "aribb24/convtable.h"
 #include "aribb24/decoder_macro.h"
+#include "drcs.h"
 
 #if 0
 /*****************************************************************************
@@ -1439,9 +1440,10 @@ void arib_initialize_decoder( arib_decoder_t* decoder )
     decoder->i_charleft = 0;
     decoder->i_charbottom = 0;
 
-    decoder->p_instance->p->i_drcs_num = 0;
     memset( decoder->p_instance->p->drcs_conv_table, 0,
             sizeof(decoder->p_instance->p->drcs_conv_table) );
+
+    apply_drcs_conversion_table( decoder->p_instance );
 
     decoder->p_region = NULL;
     decoder->b_need_next_region = true;
