@@ -261,7 +261,7 @@ static FILE* open_image_file( arib_instance_t* p_instance, const char *psz_hash 
         return NULL;
     }
 
-    int fd = open( psz_image_file, O_CREAT | O_EXCL | O_WRONLY );
+    int fd = open( psz_image_file, O_CREAT | O_EXCL | O_WRONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH );
     if ( fd != -1 )
     {
         fp = fdopen( fd, "wb" );
