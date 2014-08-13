@@ -67,50 +67,6 @@ typedef struct
 
 #endif
 
-//#define ARIBSUB_GEN_DRCS_DATA
-#ifdef ARIBSUB_GEN_DRCS_DATA
-typedef struct drcs_geometric_data_s
-{
-    int8_t      i_regionX;
-    int8_t      i_regionY;
-    int16_t     i_geometricData_length;
-
-    int8_t      *p_geometricData;
-} drcs_geometric_data_t;
-
-typedef struct drcs_pattern_data_s
-{
-    int8_t      i_depth;
-    int8_t      i_width;
-    int8_t      i_height;
-
-    int8_t      *p_patternData;
-} drcs_pattern_data_t;
-
-typedef struct  drcs_font_data_s
-{
-    int8_t                i_fontId;
-    int8_t                i_mode;
-
-    drcs_pattern_data_t   *p_drcs_pattern_data;
-    drcs_geometric_data_t *p_drcs_geometric_data;
-} drcs_font_data_t;
-
-typedef struct drc_code_s
-{
-    int16_t            i_CharacterCode;
-    int8_t             i_NumberOfFont;
-    drcs_font_data_t   *p_drcs_font_data;
-} drcs_code_t;
-
-typedef struct drcs_data_s
-{
-    int8_t      i_NumberOfCode;
-
-    drcs_code_t *p_drcs_code;
-} drcs_data_t;
-#endif //ARIBSUB_GEN_DRCS_DATA
-
 /*****************************************************************************
  * ARIB STD-B24 JIS 8bit character code decoder
  *****************************************************************************/
@@ -165,9 +121,6 @@ struct arib_decoder_t
 
     int i_charleft;
     int i_charbottom;
-
-    int i_drcs_num;
-    unsigned int drcs_conv_table[188];
 
     arib_buf_region_t *p_region;
     bool b_need_next_region;
@@ -499,9 +452,9 @@ static int decoder_handle_drcs( arib_decoder_t *decoder, int c )
     unsigned int uc;
 
     uc = 0;
-    if( c < decoder->i_drcs_num )
+    if( c < decoder->p_instance->p->i_drcs_num )
     {
-        uc = decoder->drcs_conv_table[c];
+        uc = decoder->p_instance->p->drcs_conv_table[c];
     }
     if( uc == 0 )
     {
@@ -1436,6 +1389,7 @@ static int arib_decode( arib_decoder_t *decoder )
 
 void arib_initialize_decoder( arib_decoder_t* decoder )
 {
+    arib_finalize_decoder( decoder );
     decoder->buf = NULL;
     decoder->count = 0;
     decoder->ubuf = NULL;
@@ -1485,8 +1439,9 @@ void arib_initialize_decoder( arib_decoder_t* decoder )
     decoder->i_charleft = 0;
     decoder->i_charbottom = 0;
 
-    decoder->i_drcs_num = 0;
-    memset( decoder->drcs_conv_table, 0, sizeof(decoder->drcs_conv_table) );
+    decoder->p_instance->p->i_drcs_num = 0;
+    memset( decoder->p_instance->p->drcs_conv_table, 0,
+            sizeof(decoder->p_instance->p->drcs_conv_table) );
 
     decoder->p_region = NULL;
     decoder->b_need_next_region = true;

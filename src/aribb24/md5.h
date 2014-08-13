@@ -24,20 +24,12 @@
 #ifndef VLC_MD5_H
 # define VLC_MD5_H
 
-#include <inttypes.h>
-
-#ifdef __GNUC__
-#   define likely(p)   __builtin_expect(!!(p), 1)
-#   define unlikely(p) __builtin_expect(!!(p), 0)
-#else
-#   define likely(p)   (!!(p))
-#   define unlikely(p) (!!(p))
-#endif
-
 /**
  * \file
  * This file defines functions and structures to compute MD5 digests
  */
+
+#include <inttypes.h>
 
 struct md5_s
 {
@@ -58,7 +50,7 @@ void EndMD5( struct md5_s * );
 static inline char * psz_md5_hash( struct md5_s *md5_s )
 {
     char *psz = malloc( 33 ); /* md5 string is 32 bytes + NULL character */
-    if( likely(psz) )
+    if( psz )
     {
         for( int i = 0; i < 16; i++ )
             sprintf( &psz[2*i], "%02"PRIx8, md5_s->buf[i] );
