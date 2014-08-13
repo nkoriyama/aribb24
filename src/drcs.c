@@ -114,38 +114,6 @@ static bool create_arib_datadir( arib_instance_t *p_instance )
     return true;
 }
 
-bool apply_drcs_conversion_table( arib_instance_t *p_instance )
-{
-    for( int i = 0; i < p_instance->p->i_drcs_num; i++ )
-    {
-        unsigned int uc = 0;
-        drcs_conversion_t *p_drcs_conv = p_instance->p->p_drcs_conv;
-        while( p_drcs_conv != NULL )
-        {
-            if( strcmp( p_drcs_conv->hash, p_instance->p->drcs_hash_table[i] ) == 0 )
-            {
-                uc = p_drcs_conv->code;
-                break;
-            }
-            p_drcs_conv = p_drcs_conv->p_next;
-        }
-#ifdef DEBUG_ARIBSUB
-        if( uc )
-        {
-            arib_log( p_instance, "Mapping [%s=U+%04x] will be used.",
-                      p_instance->p->drcs_hash_table[i], uc );
-        }
-        else
-        {
-            arib_log( p_instance, "Mapping for hash[%s] is not found.",
-                      p_instance->p->drcs_hash_table[i] );
-        }
-#endif
-        p_instance->p->drcs_conv_table[i] = uc;
-    }
-    return true;
-}
-
 bool load_drcs_conversion_table( arib_instance_t *p_instance )
 {
     if ( !create_arib_basedir( p_instance ) )
