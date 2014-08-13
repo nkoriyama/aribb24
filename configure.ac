@@ -1,6 +1,6 @@
 AC_PREREQ([2.69])
 AC_INIT([aribb24], [0.0.1], [nkoriyama@gmail.com])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([subdir-objects])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -19,6 +19,5 @@ PKG_CHECK_MODULES(PNG, "libpng", [
 
 AC_CHECK_FUNCS([vasprintf])
 
-AC_CONFIG_FILES([Makefile
-                 src/Makefile src/aribb24.pc])
+AC_CONFIG_FILES([Makefile src/aribb24.pc])
 AC_OUTPUT
