@@ -5,7 +5,7 @@ libaribb24_la_SOURCES = src/aribb24.c src/aribb24_private.h	\
 	src/decoder.c src/decoder_private.h src/parser.c	\
 	src/parser_private.h src/md5.c src/md5.h src/drcs.c	\
 	src/drcs.h src/aribb24/convtable.h			\
-	src/aribb24/decoder_macro.h src/aribb24/md5.h
+	src/aribb24/decoder_macro.h
 libaribb24_la_LIBADD = $(PNG_LIBS)
 libaribb24_la_CFLAGS = -Wall -fvisibility=hidden
 

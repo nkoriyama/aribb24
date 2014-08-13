@@ -34,10 +34,10 @@
   #include "png.h"
 #endif
 #include "aribb24/aribb24.h"
-#include "aribb24/md5.h"
 #include "aribb24/bits.h"
 #include "aribb24_private.h"
 #include "drcs.h"
+#include "md5.h"
 
 #if defined( _WIN32 ) || defined( __SYMBIAN32__ ) || defined( __OS2__ )
 #   define mkdir(a,b) mkdir(a)
