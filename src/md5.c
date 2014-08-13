@@ -42,7 +42,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "md5.h"
+#include "aribb24/md5.h"
 
 typedef uint32_t u32;
 typedef uint8_t byte;
