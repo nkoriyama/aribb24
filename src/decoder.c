@@ -1149,7 +1149,7 @@ static int decoder_handle_time( arib_decoder_t *decoder )
     return 0;
 }
 
-int decoder_handle_c1( arib_decoder_t *decoder, int c )
+static int decoder_handle_c1( arib_decoder_t *decoder, int c )
 {
     /* ARIB STD-B24 VOLUME 1 Part 2 Chapter 7
      * Table 7-14 Control function character set code table */
