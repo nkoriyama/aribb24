@@ -20,6 +20,7 @@
 #ifndef DRCS_PRIVATE_H
 #define DRCS_PRIVATE_H 1
 
+#include <stdint.h>
 
 typedef struct drcs_conversion_s
 {
