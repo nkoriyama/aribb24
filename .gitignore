@@ -1,16 +1,28 @@
-# http://www.gnu.org/software/automake
-
-Makefile.in
-
-# http://www.gnu.org/software/autoconf
-
-/autom4te.cache
+*.la
+*.lo
+*.o
+.deps
+.dirstamp
+.libs
+/*.tar.gz
+/Makefile
+/Makefile.in
 /aclocal.m4
+/aribb24-*/
+/autom4te.cache
 /compile
+/config.guess
+/config.h
+/config.h.in
+/config.log
+/config.status
+/config.sub
 /configure
 /depcomp
 /install-sh
+/libtool
+/ltmain.sh
+/m4/
 /missing
+/src/aribb24.pc
 /stamp-h1
-/src/.libs
-/src/.deps
