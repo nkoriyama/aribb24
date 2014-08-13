@@ -1389,6 +1389,7 @@ static int arib_decode( arib_decoder_t *decoder )
 
 void arib_initialize_decoder( arib_decoder_t* decoder )
 {
+    arib_finalize_decoder( decoder );
     decoder->buf = NULL;
     decoder->count = 0;
     decoder->ubuf = NULL;
