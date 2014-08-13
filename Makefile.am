@@ -9,3 +9,5 @@ pkginclude_HEADERS = src/aribb24/decoder.h src/aribb24/parser.h src/aribb24/bits
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = src/aribb24.pc
+
+dist_doc_DATA = README.md COPYING
