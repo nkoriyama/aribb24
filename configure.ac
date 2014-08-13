@@ -3,6 +3,8 @@ AC_INIT([aribb24], [0.0.1], [nkoriyama@gmail.com])
 AM_INIT_AUTOMAKE([foreign subdir-objects])
 AC_CONFIG_MACRO_DIR([m4])
 
+AC_USE_SYSTEM_EXTENSIONS
+
 AC_PROG_CC
 AC_PROG_CC_STDC
 AC_PROG_INSTALL

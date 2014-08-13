@@ -23,10 +23,6 @@
 #ifndef ARIBB24_MAIN_C
 #define ARIBB24_MAIN_C 1
 
-#ifdef HAVE_VASPRINTF
-#define _GNU_SOURCE
-#endif
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
