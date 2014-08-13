@@ -29,6 +29,8 @@
  * This file defines functions and structures to compute MD5 digests
  */
 
+#include <inttypes.h>
+
 struct md5_s
 {
     uint32_t A, B, C, D;          /* chaining variables */
@@ -48,7 +50,7 @@ void EndMD5( struct md5_s * );
 static inline char * psz_md5_hash( struct md5_s *md5_s )
 {
     char *psz = malloc( 33 ); /* md5 string is 32 bytes + NULL character */
-    if( likely(psz) )
+    if( psz )
     {
         for( int i = 0; i < 16; i++ )
             sprintf( &psz[2*i], "%02"PRIx8, md5_s->buf[i] );
