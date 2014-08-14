@@ -267,7 +267,12 @@ static FILE* open_image_file( arib_instance_t* p_instance, const char *psz_hash 
         return NULL;
     }
 
-    int fd = open( psz_image_file, O_CREAT | O_EXCL | O_WRONLY, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH );
+    int flags = O_CREAT | O_EXCL | O_WRONLY;
+#if defined( _WIN32 ) || defined( __SYMBIAN32__ ) || defined( __OS2__ )
+    flags |= O_BINARY;
+#endif
+    int mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+    int fd = open( psz_image_file, flags, mode );
     if ( fd != -1 )
     {
         fp = fdopen( fd, "wb" );
