@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT([aribb24], [1.0.1], [nkoriyama@gmail.com])
+AC_INIT([aribb24], [1.0.2], [nkoriyama@gmail.com])
 AM_INIT_AUTOMAKE([foreign subdir-objects])
 AC_CONFIG_MACRO_DIR([m4])
 
