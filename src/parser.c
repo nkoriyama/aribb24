@@ -454,6 +454,7 @@ arib_parser_t * arib_parser_new( arib_instance_t *p_instance )
 void arib_parser_free( arib_parser_t *p_parser )
 {
     arib_log( p_parser->p_instance, "arib parser was destroyed" );
+    free( p_parser->psz_subtitle_data );
     free( p_parser );
 }
 

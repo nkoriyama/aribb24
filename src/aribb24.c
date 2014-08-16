@@ -82,7 +82,17 @@ void arib_instance_destroy( arib_instance_t *p_instance )
         arib_decoder_free( p_instance->p->p_decoder ); 
     if ( p_instance->p->p_parser )
         arib_parser_free( p_instance->p->p_parser ); 
+    free( p_instance->p->psz_base_path );
     free( p_instance->p->psz_last_error );
+
+    drcs_conversion_t *p_drcs_conv, *p_next;
+    for( p_drcs_conv = p_instance->p->p_drcs_conv; p_drcs_conv; p_drcs_conv = p_next )
+    {
+        p_next = p_drcs_conv->p_next;
+        free( p_drcs_conv );
+    }
+
+    free( p_instance->p );
     free( p_instance );
 }
 
