@@ -12,5 +12,6 @@ pluginsdir=${pkglibdir}/plugins
 Name: ARIB B24 Library
 Description: ARIB B24 Captions decoder
 Version: @VERSION@
+Requires: @PKG_REQUIRES@
 Cflags: -I${includedir}
 Libs: -L${libdir} -laribb24

@@ -13,9 +13,13 @@ AC_PROG_MAKE_SET
 LT_INIT
 
 # Checks for libraries.
+pkg_requires=""
 PKG_CHECK_MODULES(PNG, "libpng", [
   AC_DEFINE(HAVE_PNG, 1, "have libpng")
+  pkg_requires="libpng"
 ], [])
+
+AC_SUBST([PKG_REQUIRES], [$(test x$enable_shared = xno && echo ${pkg_requires})])
 
 AC_CHECK_FUNCS([vasprintf])
 
