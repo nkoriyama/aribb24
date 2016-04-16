@@ -23,6 +23,10 @@
 #ifndef ARIBB24_MAIN_H
 #define ARIBB24_MAIN_H 1
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdbool.h>
 
 /* If building or using aribb24 as a DLL, define ARIBB24_DLL.
@@ -82,5 +86,9 @@ ARIB_API arib_decoder_t * arib_get_decoder( arib_instance_t * );
 
 ARIB_API void arib_register_messages_callback( arib_instance_t *,
                                       arib_messages_callback_t );
+
+#ifdef __cplusplus
+};
+#endif
 
 #endif

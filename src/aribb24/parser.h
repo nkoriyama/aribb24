@@ -25,6 +25,10 @@
 
 #include "aribb24.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define DEBUG_ARIBSUB 1
 
 /****************************************************************************
@@ -34,5 +38,8 @@
 ARIB_API void arib_parse_pes( arib_parser_t *, const void *p_data, size_t i_data );
 ARIB_API const unsigned char * arib_parser_get_data( arib_parser_t *, size_t * );
 
+#ifdef __cplusplus
+};
+#endif
 
 #endif
