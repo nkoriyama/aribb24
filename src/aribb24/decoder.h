@@ -23,6 +23,10 @@
 #ifndef ARIBB24_DECODER_H
 #define ARIBB24_DECODER_H 1
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "aribb24.h"
 
 #include <stdint.h>
@@ -75,5 +79,9 @@ ARIB_API size_t arib_decode_buffer( arib_decoder_t* decoder,
 ARIB_API time_t arib_decoder_get_time( arib_decoder_t *decoder );
 
 ARIB_API const arib_buf_region_t * arib_decoder_get_regions( arib_decoder_t * ); 
+
+#ifdef __cplusplus
+};
+#endif
 
 #endif
