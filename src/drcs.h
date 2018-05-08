@@ -31,7 +31,7 @@ typedef struct drcs_conversion_s
 } drcs_conversion_t ;
 
 
-//#define ARIBSUB_GEN_DRCS_DATA
+#define ARIBSUB_GEN_DRCS_DATA
 #ifdef ARIBSUB_GEN_DRCS_DATA
 typedef struct drcs_geometric_data_s
 {

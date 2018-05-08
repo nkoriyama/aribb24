@@ -119,7 +119,7 @@ static void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
 
     for( int i = 0; i < i_NumberOfCode; i++ )
     {
-        bs_skip( p_bs, 16 ); /* i_character_code */
+        int16_t i_CharacterCode = bs_read(p_bs, 16); /* i_character_code */
         p_parser->i_data_unit_size += 2;
         uint8_t i_NumberOfFont = bs_read( p_bs, 8 );
         p_parser->i_data_unit_size += 1;
@@ -139,7 +139,7 @@ static void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
 
         for( int j = 0; j < i_NumberOfFont; j++ )
         {
-            bs_skip( p_bs, 4 ); /* i_fontID */
+            int8_t i_fontId = bs_read(p_bs, 4); /* i_fontID */
             uint8_t i_mode = bs_read( p_bs, 4 );
             p_parser->i_data_unit_size += 1;
 
@@ -215,9 +215,9 @@ static void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
             }
             else
             {
-                bs_skip( p_bs, 8 ); /* i_regionX */
+                int8_t i_regionX = bs_read(p_bs, 8); /* i_regionX */
                 p_parser->i_data_unit_size += 1;
-                bs_skip( p_bs, 8 ); /* i_regionY */
+                int8_t i_regionY = bs_read(p_bs, 8); /* i_regionY */
                 p_parser->i_data_unit_size += 1;
                 uint16_t i_geometricData_length = bs_read( p_bs, 16 );
                 p_parser->i_data_unit_size += 2;
@@ -245,7 +245,7 @@ static void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
 
                 for( int k = 0; k < i_geometricData_length ; k++ )
                 {
-                    bs_skip( p_bs, 8 ); /* i_geometric_data */
+                    int8_t i_geometricData = bs_read(p_bs, 8); /* i_geometric_data */
                     p_parser->i_data_unit_size += 1;
 
 #ifdef ARIBSUB_GEN_DRCS_DATA
