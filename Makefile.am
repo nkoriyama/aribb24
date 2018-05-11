@@ -10,7 +10,7 @@ libaribb24_la_LIBADD = $(PNG_LIBS)
 libaribb24_la_CFLAGS = -Wall -fvisibility=hidden $(PNG_CFLAGS)
 
 pkginclude_HEADERS = src/aribb24/decoder.h src/aribb24/parser.h	\
-	src/aribb24/bits.h src/aribb24/aribb24.h
+	src/aribb24/bits.h src/aribb24/aribb24.h src/aribb24/drcs_types.h
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = src/aribb24.pc

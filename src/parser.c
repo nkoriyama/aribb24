@@ -463,3 +463,10 @@ const unsigned char * arib_parser_get_data( arib_parser_t *p_parser, size_t *pi_
     *pi_size = p_parser->i_subtitle_data_size;
     return p_parser->psz_subtitle_data;
 }
+
+// #ifdef ARIBSUB_GEN_DRCS_DATA
+const drcs_data_t *arib_parser_get_drcs_data(arib_parser_t *p_parser)
+{
+    return p_parser->p_drcs_data;
+}
+// #endif //ARIBSUB_GEN_DRCS_DATA
