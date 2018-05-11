@@ -35,8 +35,9 @@
 #endif
 #include "aribb24/aribb24.h"
 #include "aribb24/bits.h"
+#include "aribb24/drcs.h"
+#include "aribb24/drcs_types.h"
 #include "aribb24_private.h"
-#include "drcs.h"
 #include "md5.h"
 
 #if defined( _WIN32 ) || defined( __SYMBIAN32__ ) || defined( __OS2__ )
@@ -287,7 +288,7 @@ static FILE* open_image_file( arib_instance_t* p_instance, const char *psz_hash 
     return fp;
 }
 
-static char* get_drcs_pattern_data_hash(
+char* get_drcs_pattern_data_hash(
         arib_instance_t *p_instance,
         int i_width, int i_height,
         int i_depth, const int8_t* p_patternData )

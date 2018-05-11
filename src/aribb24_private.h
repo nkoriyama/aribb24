@@ -23,7 +23,8 @@
 #ifndef ARIBB24_PRIVATE_H
 #define ARIBB24_PRIVATE_H 1
 
-#include "drcs.h"
+#include "aribb24/drcs.h"
+#include "aribb24/drcs_types.h"
 
 struct arib_instance_private_t
 {

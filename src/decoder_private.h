@@ -23,6 +23,8 @@
 #ifndef DECODER_PRIVATE_H
 #define DECODER_PRIVATE_H 1
 
+#include "aribb24/aribb24.h"
+
 arib_decoder_t * arib_decoder_new( arib_instance_t *p_instance );
 void arib_decoder_free( arib_decoder_t * );
 

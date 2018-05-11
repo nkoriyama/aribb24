@@ -26,11 +26,11 @@
 #include <stdint.h>
 
 #include "aribb24/decoder.h"
+#include "aribb24/drcs.h"
 #include "aribb24_private.h"
 #include "decoder_private.h"
 #include "convtable.h"
 #include "decoder_macro.h"
-#include "drcs.h"
 
 #if 0
 /*****************************************************************************

@@ -29,6 +29,7 @@
 #include <stdarg.h>
 
 #include "aribb24/aribb24.h"
+#include "aribb24/drcs_types.h"
 #include "aribb24_private.h"
 
 #include "parser_private.h"
