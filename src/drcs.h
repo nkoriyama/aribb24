@@ -27,5 +27,7 @@
 bool apply_drcs_conversion_table( arib_instance_t * );
 bool load_drcs_conversion_table( arib_instance_t * );
 void save_drcs_pattern( arib_instance_t *, int, int, int, const int8_t* );
+static char* get_drcs_pattern_data_hash(arib_instance_t *, int , int, int, const int8_t* );
+// save_drcs_pattern_data_image はどうする？ 勝手に上がる気が...？
 
 #endif

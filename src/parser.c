@@ -75,12 +75,8 @@ static void parse_data_unit_statement_body( arib_parser_t *p_parser, bs_t *p_bs,
     free( p_data_unit_data_byte );
 }
 
-static void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
-                                  uint8_t i_data_unit_parameter,
-                                  uint32_t i_data_unit_size )
+void arib_parser_cleanup_DRCS(arib_parser_t *p_parser)
 {
-    p_parser->p_instance->p->i_drcs_num = 0;
-#ifdef ARIBSUB_GEN_DRCS_DATA
     if( p_parser->p_drcs_data != NULL )
     {
         for( int i = 0; i < p_parser->p_drcs_data->i_NumberOfCode; i++ )
@@ -97,7 +93,17 @@ static void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
         free( p_parser->p_drcs_data->p_drcs_code );
         free( p_parser->p_drcs_data );
     }
-    p_parser->p_drcs_data = (drcs_data_t*) calloc( 1, sizeof(drcs_data_t) );
+    p_parser->p_drcs_data = NULL;
+}
+
+static void parse_data_unit_DRCS( arib_parser_t *p_parser, bs_t *p_bs,
+                                  uint8_t i_data_unit_parameter,
+                                  uint32_t i_data_unit_size )
+{
+    p_parser->p_instance->p->i_drcs_num = 0;
+#ifdef ARIBSUB_GEN_DRCS_DATA
+    arib_parser_cleanup_DRCS( p_parser );
+    p_parser->p_drcs_data = (drcs_data_t *)calloc(1, sizeof(drcs_data_t));
     if( p_parser->p_drcs_data == NULL )
     {
         return;
