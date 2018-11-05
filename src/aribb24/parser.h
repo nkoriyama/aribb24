@@ -37,6 +37,7 @@ ARIB_API const unsigned char * arib_parser_get_data( arib_parser_t *, size_t * )
 //#ifdef ARIBSUB_GEN_DRCS_DATA
 ARIB_API const drcs_data_t *arib_parser_get_drcs_data(arib_parser_t *);
 ARIB_API void arib_parser_cleanup_DRCS(arib_parser_t *);
+ARIB_API char **arib_parser_get_drcs_hash_table(arib_parser_t *p_parser, int *i_drcs_num);
 //#endif //ARIBSUB_GEN_DRCS_DATA
 
 

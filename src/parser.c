@@ -471,6 +471,12 @@ const unsigned char * arib_parser_get_data( arib_parser_t *p_parser, size_t *pi_
 }
 
 // #ifdef ARIBSUB_GEN_DRCS_DATA
+char **arib_parser_get_drcs_hash_table(arib_parser_t *p_parser, int *i_drcs_num)
+{
+    *i_drcs_num = p_parser->p_instance->p->i_drcs_num;
+    return p_parser->p_instance->p->drcs_hash_table;
+}
+
 const drcs_data_t *arib_parser_get_drcs_data(arib_parser_t *p_parser)
 {
     return p_parser->p_drcs_data;
