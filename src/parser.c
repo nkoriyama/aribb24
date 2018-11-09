@@ -93,6 +93,9 @@ void arib_parser_cleanup_DRCS(arib_parser_t *p_parser)
         free( p_parser->p_drcs_data->p_drcs_code );
         free( p_parser->p_drcs_data );
     }
+    // clear drcs hash table
+    p_parser->p_instance->p->i_drcs_num = 0;
+
     p_parser->p_drcs_data = NULL;
 }
 
