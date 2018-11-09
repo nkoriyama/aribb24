@@ -93,8 +93,6 @@ void arib_parser_cleanup_DRCS(arib_parser_t *p_parser)
         free( p_parser->p_drcs_data->p_drcs_code );
         free( p_parser->p_drcs_data );
     }
-    // clear drcs hash table
-    p_parser->p_instance->p->i_drcs_num = 0;
 
     p_parser->p_drcs_data = NULL;
 }
@@ -424,6 +422,9 @@ static void parse_data_group( arib_parser_t *p_parser, bs_t *p_bs )
  *****************************************************************************/
 void arib_parse_pes( arib_parser_t *p_parser, const void *p_data, size_t i_data )
 {
+    // clear drcs hash table
+    p_parser->p_instance->p->i_drcs_num = 0;
+
     bs_t bs;
     bs_init( &bs, p_data, i_data );
     uint8_t i_data_group_id = bs_read( &bs, 8 );
