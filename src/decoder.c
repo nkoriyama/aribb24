@@ -1506,6 +1506,7 @@ void arib_finalize_decoder( arib_decoder_t* decoder )
         free( p_region );
     }
     decoder->p_region = NULL;
+    decoder->i_control_time = 0;
 }
 
 size_t arib_decode_buffer( arib_decoder_t* decoder,
