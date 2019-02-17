@@ -1140,8 +1140,10 @@ static int decoder_handle_time( arib_decoder_t *decoder )
                 break;
             default:
                 if( i_mode == 1 && c >= 0x40 && c <= 0x7F )
+                {
                     decoder->i_control_time += c & 0x3f;
                     return 1;
+                }
                 return 0;
         }
         if( i_mode == 0 )
