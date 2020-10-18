@@ -471,6 +471,27 @@ static int decoder_handle_alnum( arib_decoder_t *decoder, int c )
     return decoder_push( decoder, uc );
 }
 
+static int decoder_handle_alnum_latin( arib_decoder_t *decoder, int c )
+{
+    unsigned int uc;
+    uc = decoder_alnum_latin_table[c];
+    return decoder_push( decoder, uc );
+}
+
+static int decoder_handle_alnum_latin_extension( arib_decoder_t *decoder, int c )
+{
+    unsigned int uc;
+    uc = decoder_alnum_latin_extension_table[c];
+    return decoder_push( decoder, uc );
+}
+
+static int decoder_handle_alnum_latin_special( arib_decoder_t *decoder, int c )
+{
+    unsigned int uc;
+    uc = decoder_alnum_latin_special_table[c];
+    return decoder_push( decoder, uc );
+}
+
 static int decoder_handle_hiragana( arib_decoder_t *decoder, int c )
 {
     unsigned int uc;
@@ -590,7 +611,13 @@ static int decoder_handle_esc( arib_decoder_t *decoder )
                 return 1;
             case 0x36:
             case 0x4a:
-                *handle = decoder_handle_alnum;
+                *handle = decoder->p_instance->is_latin ? decoder_handle_alnum_latin : decoder_handle_alnum;
+                return 1;
+            case 0x4b:
+                *handle = decoder->p_instance->is_latin ? decoder_handle_alnum_latin_extension : decoder_handle_drcs;
+                return 1;
+            case 0x4c:
+                *handle = decoder->p_instance->is_latin ? decoder_handle_alnum_latin_special : decoder_handle_drcs;
                 return 1;
             case 0x40:
             case 0x41:
@@ -603,8 +630,6 @@ static int decoder_handle_esc( arib_decoder_t *decoder )
             case 0x48:
             case 0x49:
             //case 0x4a:
-            case 0x4b:
-            case 0x4c:
             case 0x4d:
             case 0x4e:
             case 0x4f:
@@ -1483,6 +1508,11 @@ void arib_initialize_decoder_a_profile( arib_decoder_t* decoder )
     arib_initialize_decoder_size_related( decoder,
                 960, 540, 620, 480, 170, 30,
                 36, 36, 4, 24);
+
+    if(decoder->p_instance->is_latin)
+    {
+        arib_initialize_decoder_latin( decoder );
+    }
 }
 
 void arib_initialize_decoder_c_profile( arib_decoder_t* decoder )
@@ -1495,6 +1525,19 @@ void arib_initialize_decoder_c_profile( arib_decoder_t* decoder )
     arib_initialize_decoder_size_related( decoder,
             320, 180, 300, 160, 0, 0,
             18, 18, 2, 12);
+
+    if(decoder->p_instance->is_latin)
+    {
+        arib_initialize_decoder_latin( decoder );
+    }
+}
+
+void arib_initialize_decoder_latin( arib_decoder_t* decoder )
+{
+    decoder->handle_g0 = decoder_handle_alnum_latin;
+    decoder->handle_g1 = decoder_handle_alnum_latin;
+    decoder->handle_g2 = decoder_handle_alnum_latin_extension;
+    decoder->handle_g3 = decoder_handle_alnum_latin_special;
 }
 
 void arib_finalize_decoder( arib_decoder_t* decoder )
