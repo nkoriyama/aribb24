@@ -472,12 +472,18 @@ void arib_set_language( arib_instance_t  *p_instance, uint32_t lang_i )
     unsigned char* spa = "aps";
     unsigned char* lang = &lang_i;;
     lang[3] = '\0';
-    //printf("language %s\n",lang);
 
     if( (!strcicmp(por,lang)) || (!strcicmp(spa,lang)))
     {
-        arib_log( p_instance, "arib latin language detected" );
-        p_instance->is_latin = true;
+        if(!p_instance->is_latin)
+        {
+            arib_log( p_instance, "arib latin language detected" );
+            p_instance->is_latin = true;
+            arib_decoder_t *decoder = arib_get_decoder( p_instance );
+            if ( decoder ) {
+                arib_initialize_decoder_latin ( decoder );
+            }
+        }
     }
 }
 

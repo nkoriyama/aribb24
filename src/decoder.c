@@ -478,17 +478,17 @@ static int decoder_handle_alnum_latin( arib_decoder_t *decoder, int c )
     return decoder_push( decoder, uc );
 }
 
-static int decoder_handle_alnum_latin_extension( arib_decoder_t *decoder, int c )
+static int decoder_handle_latin_extension( arib_decoder_t *decoder, int c )
 {
     unsigned int uc;
-    uc = decoder_alnum_latin_extension_table[c];
+    uc = decoder_latin_extension_table[c];
     return decoder_push( decoder, uc );
 }
 
-static int decoder_handle_alnum_latin_special( arib_decoder_t *decoder, int c )
+static int decoder_handle_latin_special( arib_decoder_t *decoder, int c )
 {
     unsigned int uc;
-    uc = decoder_alnum_latin_special_table[c];
+    uc = decoder_latin_special_table[c];
     return decoder_push( decoder, uc );
 }
 
@@ -614,10 +614,10 @@ static int decoder_handle_esc( arib_decoder_t *decoder )
                 *handle = decoder->p_instance->is_latin ? decoder_handle_alnum_latin : decoder_handle_alnum;
                 return 1;
             case 0x4b:
-                *handle = decoder->p_instance->is_latin ? decoder_handle_alnum_latin_extension : decoder_handle_drcs;
+                *handle = decoder->p_instance->is_latin ? decoder_handle_latin_extension : decoder_handle_drcs;
                 return 1;
             case 0x4c:
-                *handle = decoder->p_instance->is_latin ? decoder_handle_alnum_latin_special : decoder_handle_drcs;
+                *handle = decoder->p_instance->is_latin ? decoder_handle_latin_special : decoder_handle_drcs;
                 return 1;
             case 0x40:
             case 0x41:
@@ -1536,8 +1536,8 @@ void arib_initialize_decoder_latin( arib_decoder_t* decoder )
 {
     decoder->handle_g0 = decoder_handle_alnum_latin;
     decoder->handle_g1 = decoder_handle_alnum_latin;
-    decoder->handle_g2 = decoder_handle_alnum_latin_extension;
-    decoder->handle_g3 = decoder_handle_alnum_latin_special;
+    decoder->handle_g2 = decoder_handle_latin_extension;
+    decoder->handle_g3 = decoder_handle_latin_special;
 }
 
 void arib_finalize_decoder( arib_decoder_t* decoder )
