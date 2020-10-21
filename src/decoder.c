@@ -1545,6 +1545,7 @@ void arib_initialize_decoder_latin( arib_decoder_t* decoder )
     decoder->handle_g1 = decoder_handle_alnum_latin;
     decoder->handle_g2 = decoder_handle_latin_extension;
     decoder->handle_g3 = decoder_handle_latin_special;
+    arib_initialize_decoder_latin_size_related( decoder );
 }
 
 void arib_initialize_decoder_latin_size_related( arib_decoder_t* decoder )
