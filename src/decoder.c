@@ -1425,6 +1425,11 @@ void arib_initialize_decoder( arib_decoder_t* decoder )
     decoder->handle_g3 = decoder_handle_katakana;
     decoder->kanji_ku = -1;
 
+    if(decoder->p_instance->is_latin)
+    {
+        arib_initialize_decoder_latin( decoder );
+    }
+
     decoder->i_control_time = 0;
 
     decoder->i_color_map = 0x0000;
@@ -1512,6 +1517,7 @@ void arib_initialize_decoder_a_profile( arib_decoder_t* decoder )
     if(decoder->p_instance->is_latin)
     {
         arib_initialize_decoder_latin( decoder );
+        arib_initialize_decoder_latin_size_related( decoder );
     }
 }
 
@@ -1529,6 +1535,7 @@ void arib_initialize_decoder_c_profile( arib_decoder_t* decoder )
     if(decoder->p_instance->is_latin)
     {
         arib_initialize_decoder_latin( decoder );
+        arib_initialize_decoder_latin_size_related( decoder );
     }
 }
 
@@ -1538,6 +1545,10 @@ void arib_initialize_decoder_latin( arib_decoder_t* decoder )
     decoder->handle_g1 = decoder_handle_alnum_latin;
     decoder->handle_g2 = decoder_handle_latin_extension;
     decoder->handle_g3 = decoder_handle_latin_special;
+}
+
+void arib_initialize_decoder_latin_size_related( arib_decoder_t* decoder )
+{
     //size related
     decoder->i_horint = decoder->i_horint_cur = 2;
     decoder->i_charwidth = decoder->i_fontwidth + 2;
