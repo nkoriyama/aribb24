@@ -73,6 +73,7 @@ arib_instance_t * arib_instance_new( void *p_opaque )
     }
     p_instance->p->p_opaque = p_opaque;
     p_instance->b_use_private_conv = true;
+    p_instance->is_latin = false;
     return p_instance;
 }
 

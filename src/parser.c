@@ -334,7 +334,9 @@ static void parse_caption_management_data( arib_parser_t *p_parser, bs_t *p_bs )
         {
             bs_skip( p_bs, 8 ); /* i_DC */
         }
-        bs_skip( p_bs, 24 ); /* i_ISO_639_language_code */
+        //bs_skip( p_bs, 24 ); /* i_ISO_639_language_code */
+        uint32_t lang = bs_read( p_bs, 24 );
+        arib_set_language(p_parser->p_instance, lang);
         bs_skip( p_bs, 4 ); /* i_Format */
         bs_skip( p_bs, 2 ); /* i_TCS */
         bs_skip( p_bs, 2 ); /* i_rollup_mode */
@@ -462,4 +464,34 @@ const unsigned char * arib_parser_get_data( arib_parser_t *p_parser, size_t *pi_
 {
     *pi_size = p_parser->i_subtitle_data_size;
     return p_parser->psz_subtitle_data;
+}
+
+void arib_set_language( arib_instance_t  *p_instance, uint32_t lang_i )
+{
+    unsigned char* por = "rop";
+    unsigned char* spa = "aps";
+    unsigned char* lang = &lang_i;;
+    lang[3] = '\0';
+
+    if( (!strcicmp(por,lang)) || (!strcicmp(spa,lang)))
+    {
+        if(!p_instance->is_latin)
+        {
+            arib_log( p_instance, "arib latin language detected" );
+            p_instance->is_latin = true;
+            arib_decoder_t *decoder = arib_get_decoder( p_instance );
+            if ( decoder ) {
+                arib_initialize_decoder_latin ( decoder );
+            }
+        }
+    }
+}
+
+int strcicmp(char const *a, char const *b)
+{
+    for (;; a++, b++) {
+        int d = tolower((unsigned char)*a) - tolower((unsigned char)*b);
+        if (d != 0 || !*a)
+            return d;
+    }
 }
