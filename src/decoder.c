@@ -540,7 +540,7 @@ static int decoder_handle_gl( arib_decoder_t *decoder, int c )
 
     if( c == 0x20 || c == 0x7f )
     {
-        c = 0x3000;
+        c = decoder->p_instance->is_latin ? 0x0020 : 0x3000;
         return decoder_push( decoder, c );
     }
 
