@@ -406,15 +406,19 @@ png_create_write_struct_failed:
 void save_drcs_pattern(
         arib_instance_t *p_instance,
         int i_width, int i_height,
-        int i_depth, const int8_t* p_patternData )
+        int i_depth, const int8_t* p_patternData,
+        int16_t i_CharacterCode )
 {
+//    int i_drcsPage = (i_CharacterCode >> 16) & 0xff;
+    int i_code = (i_CharacterCode & 0xff) - 0x20;
     char* psz_hash = get_drcs_pattern_data_hash( p_instance,
             i_width, i_height, i_depth, p_patternData );
 
-    strncpy( p_instance->p->drcs_hash_table[p_instance->p->i_drcs_num], psz_hash, 32 );
-    p_instance->p->drcs_hash_table[p_instance->p->i_drcs_num][32] = '\0';
+    strncpy( p_instance->p->drcs_hash_table[i_code-1], psz_hash, 32 );
+    p_instance->p->drcs_hash_table[i_code-1][32] = '\0';
 
-    p_instance->p->i_drcs_num++;
+    p_instance->p->i_drcs_num = i_code > p_instance->p->i_drcs_num ?
+                                i_code : p_instance->p->i_drcs_num;
 
     save_drcs_pattern_data_image( p_instance, psz_hash,
             i_width, i_height, i_depth, p_patternData );
