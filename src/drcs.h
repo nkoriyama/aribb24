@@ -77,6 +77,6 @@ typedef struct drcs_data_s
 
 bool apply_drcs_conversion_table( arib_instance_t * );
 bool load_drcs_conversion_table( arib_instance_t * );
-void save_drcs_pattern( arib_instance_t *, int, int, int, const int8_t* );
+void save_drcs_pattern( arib_instance_t *, int, int, int, const int8_t*, int16_t );
 
 #endif
